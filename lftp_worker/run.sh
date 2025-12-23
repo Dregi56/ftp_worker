@@ -1,4 +1,8 @@
 #!/usr/bin/with-contenv bashio
+# 1. Creiamo il file di configurazione per ignorare i certificati a monte
+# Questo evita di dover scrivere "set ssl..." ogni volta nell'automazione
+echo "set ssl:verify-certificate no" > ~/.lftprc
+echo "set ssl:check-hostname no" >> ~/.lftprc
 
 bashio::log.info "--- MOTORE LFTP AVVIATO ---"
 
