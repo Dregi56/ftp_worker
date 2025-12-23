@@ -1,9 +1,9 @@
-name: LFTP FTP Worker
+name: "LFTP FTP Worker"
 version: "1.0.0"
-slug: lftp_ftp_worker
-description: Add-on per trasferimenti FTP persistenti tramite lftp
-startup: application
-boot: auto
+slug: "lftp_ftp_worker"
+description: "Add-on per trasferimenti FTP persistenti tramite lftp"
+startup: "application"
+boot: "auto"
 arch:
   - aarch64
   - armv7
@@ -11,9 +11,9 @@ arch:
   - amd64
 init: false
 options:
-  ftp_host: ""
-  ftp_user: ""
-  ftp_psw: ""
+  ftp_host: "indirizzo.server.ftp"
+  ftp_user: "username"
+  ftp_psw: "password"
 schema:
   ftp_host: str
   ftp_user: str
