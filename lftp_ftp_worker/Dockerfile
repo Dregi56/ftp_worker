@@ -11,4 +11,4 @@ COPY run.sh /run.sh
 RUN chmod a+x /run.sh
 
 # Comando di avvio: forza l'uso di bash per caricare il file
-ENTRYPOINT [ "/bin/bash", "/run.sh" ]
+ENTRYPOINT [ "/run.sh" ]
