@@ -1,4 +1,4 @@
-#!/usr/bin/with-conten-env bashio
+#!/usr/bin/with-contenv bashio
 
 bashio::log.info "--- MOTORE LFTP AVVIATO (v1.0.24) ---"
 
