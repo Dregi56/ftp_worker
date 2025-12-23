@@ -1,14 +1,14 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Installa lftp e bash
+# Installazione dei pacchetti necessari (lftp e bash)
 RUN apk add --no-cache lftp bash
 
-# Copia lo script nella root e rendilo eseguibile
-COPY run.sh /
+# Copia lo script run.sh dal tuo repository GitHub alla radice del container
+COPY run.sh /run.sh
+
+# Rendi lo script eseguibile (permessi Linux)
 RUN chmod a+x /run.sh
 
-# Rimuovi la copia del file lftp_script.lftp se non esiste fisicamente su GitHub
-# COPY lftp_script.lftp /lftp_script.lftp 
-
-CMD [ "/run.sh" ]
+# Comando di avvio: forza l'uso di bash per caricare il file
+ENTRYPOINT [ "/bin/bash", "/run.sh" ]
