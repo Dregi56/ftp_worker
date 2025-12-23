@@ -53,28 +53,46 @@ Una volta installato, vai nella scheda **Configurazione** e compila i seguenti c
 L'add-on non esegue nulla all'avvio, ma resta in attesa. Per inviare comandi, usa il servizio `hassio.addon_stdin`.
 
 ### Esempio: Manutenzione Settimanale
-Questa automazione pulisce le cartelle remote, carica i nuovi file `.mp4` e chiude la connessione.
+Questa automazione avvia l'add-on, pulisce le cartelle remote, carica i nuovi file `.mp4` chiude la connessione e pulisce le cartelle locali, spegne l'add-on.
 
 ```yaml
-alias: "Sincronizzazione Settimanale FTP"
+alias: "Manutenzione Settimanale Video FTP"
+description: "Pulisce remoto, carica nuovi MP4 e svuota locale ogni lunedì notte"
 trigger:
   - platform: time
     at: "03:00:00"
-    昼: mon
+condition:
+  - condition: time
+    weekday:
+      - mon
 action:
-  # Avvia l'add-on se non è già attivo
+  # 1. Avvio Add-on
   - service: hassio.addon_start
     data:
-      addon: lftp_ftp_worker
-
-  # Invia i comandi LFTP
+      addon: lftp_worker
+  - delay: "00:00:20"  # Aspetta 30 secondi che l'add-on faccia il boot
+  # 2. Invio dei comandi all'add-on
   - service: hassio.addon_stdin
     data:
-      addon: lftp_ftp_worker
+      addon: lftp_worker
       input: >
-        cd /public/da_sud; rm -rf *; mput /share/da_sud/*.mp4;
-        cd /public/est_piazzola; rm -rf *; mput /share/est_piazzola/*.mp4;
-        cd /public/est_cortile; rm -rf *; mput /share/est_cortile/*.mp4
+        set xfer:clobber on;
+        set net:timeout 10; set net:max-retries 2;
+        cd /public/da_sud; rm -rf *; mput /media/da_sud/*.mp4;
+        cd /public/est_piazzola; rm -rf *; mput /media/est_piazzola/*.mp4;
+        cd /public/est_cortile; rm -rf *; mput /media/est_cortile/*.mp4;
+        quit;
 
-  # Pulizia locale tramite shell_command (opzionale)
-  - service: shell_command.pulisci_registrazioni_locali
+  # 3. Attesa per il trasferimento
+  - delay: "00:05:00"
+
+  # 4. Pulizia dei file locali
+  - service: shell_command.pulisci_locale_da_sud
+  - service: shell_command.pulisci_locale_est_piazzola
+  - service: shell_command.pulisci_locale_est_cortile
+  
+  # 5. Spegni l'add-on per liberare risorse
+  - service: hassio.addon_stop
+    data:
+      addon: lftp_worker
+mode: single
