@@ -1,103 +1,63 @@
-# ftp_worker
-Crea un collegamento FTP per azioni su server remoto
+# LFTP FTP Worker Add-on
 
-# LFTP FTP Worker
+Questo add-on per Home Assistant è un **motore universale LFTP** progettato per gestire trasferimenti file tra l'istanza locale e un server FTP remoto in modo efficiente. A differenza di altri metodi, questo add-on rimane in ascolto e processa comandi complessi tramite lo standard input (`stdin`), permettendo di eseguire pulizie, upload e download in un'unica sessione senza riconnessioni multiple.
 
-Add-on per Home Assistant (Hass.io) per trasferimenti FTP persistenti tramite **lftp**. Permette di caricare file (es. video dalle telecamere) su un server FTP remoto e di pulire file locali o remoti automaticamente. Funzionalità principali: upload dei file locali su un server FTP remoto, pulizia dei file locali dopo l’upload, pulizia della directory remota prima dell’upload, logging delle operazioni in `/config/files/lftp_worker.log`, compatibile con più telecamere e directory diverse, sicuro: le credenziali FTP non sono incluse nei file, vanno configurate tramite `options` o `secrets.yaml`.
+## Caratteristiche
+* **Motore LFTP**: Supporta operazioni avanzate, modalità passiva e gestione robusta degli errori.
+* **Comandi Dinamici**: Non è limitato a una funzione fissa; accetta qualsiasi comando LFTP tramite automazioni.
+* **Sicurezza**: Le credenziali FTP sono salvate in modo sicuro nella configurazione dell'add-on.
 
-## Struttura dei file
+---
 
-```
-lftp_ftp_worker/
-├─ Dockerfile
-├─ config.yaml
-├─ run.sh
-├─ lftp_script.lftp (opzionale)
-└─ README.md
-```
+## Installazione
 
-## Configurazione (`config.yaml`)
+1.  Copia l'URL della tua repository GitHub.
+2.  In Home Assistant, vai in **Impostazioni** > **Add-on** > **Raccolta di Add-on**.
+3.  Clicca sui tre puntini in alto a destra e seleziona **Repository**.
+4.  Incolla l'URL e clicca su **Aggiungi**.
+5.  Cerca "LFTP FTP Worker" nella lista, cliccaci sopra e premi **Installa**.
 
-```yaml
-name: LFTP FTP Worker
-version: "1.0.0"
-slug: lftp_ftp_worker
-description: Add-on per trasferimenti FTP persistenti tramite lftp
-startup: application
-boot: auto
-arch:
-  - aarch64
-  - armv7
-  - armhf
-  - amd64
-init: false
-options:
-  ftp_host: ""
-  ftp_user: ""
-  ftp_psw: ""
-schema:
-  ftp_host: str
-  ftp_user: str
-  ftp_psw: password
-```
+---
 
-> Inserisci `ftp_host`, `ftp_user`, `ftp_psw` con le credenziali del server remoto.  
-> Non inserire le credenziali reali nel repository pubblico: usa placeholder o `secrets.yaml`.
+## Configurazione
 
-## Uso dello script (`run.sh`)
+Una volta installato, vai nella scheda **Configurazione** e compila i seguenti campi:
 
-```
-/run.sh REMOTE_DIR ACTION LOCAL_DIR
-```
+* `ftp_host`: L'indirizzo del tuo server FTP (es: `ftp.miosito.it`).
+* `ftp_user`: Il tuo nome utente FTP.
+* `ftp_psw`: La tua password FTP.
 
-- `REMOTE_DIR` → directory remota sul server FTP  
-- `ACTION` → azione da eseguire:  
-  - `clean_remote` → pulisce la directory remota  
-  - `upload_and_clean_local` → carica i file locali e li cancella  
-- `LOCAL_DIR` → percorso locale dei file da caricare (solo per `upload_and_clean_local`)
+**Nota:** Assicurati di attivare l'opzione "Watchdog" se vuoi che l'add-on sia sempre attivo e pronto a ricevere comandi.
 
-### Esempi
+---
 
-Pulizia della directory remota:
+## Utilizzo tramite Automazioni
 
-```
-/run.sh da_sud clean_remote
-```
+L'add-on non esegue nulla all'avvio, ma resta in attesa. Per inviare comandi, usa il servizio `hassio.addon_stdin`.
 
-Upload dei file di una telecamera e pulizia locale:
-
-```
-/run.sh est_cortile upload_and_clean_local /media/camera_est_cortile
-```
-
-## Log
-
-Tutte le operazioni vengono registrate in:
-
-```
-/config/files/lftp_worker.log
-```
-
-## Sicurezza
-
-- Le credenziali FTP non devono mai essere inserite nel repository pubblico.  
-- Usare sempre `secrets.yaml` o `options` dell’add-on per configurare host, utente e password.
-
-## Installazione come add-on locale
-
-1. Carica la cartella `lftp_ftp_worker` su un repository GitHub (pubblico o privato)  
-2. In Hass.io / Supervisor → Add-on Store → Repositories, aggiungi l’URL del repository  
-3. Dopo aggiornamento, il tuo add-on comparirà nell’Add-on Store → installalo  
-4. Configura le credenziali FTP e avvia l’add-on
-
-## Collegamento con automazioni
-
-Esempio `shell_command` in Home Assistant:
+### Esempio: Manutenzione Settimanale
+Questa automazione pulisce le cartelle remote, carica i nuovi file `.mp4` e chiude la connessione.
 
 ```yaml
-shell_command:
-  upload_video: >
-    docker exec addon_lftp_ftp_worker /run.sh est_cortile upload_and_clean_local /media/camera_est_cortile
-```
+alias: "Sincronizzazione Settimanale FTP"
+trigger:
+  - platform: time
+    at: "03:00:00"
+    昼: mon
+action:
+  # Avvia l'add-on se non è già attivo
+  - service: hassio.addon_start
+    data:
+      addon: lftp_ftp_worker
 
-Può essere richiamato dalle automazioni per trasferire automaticamente i file video delle telecamere.
+  # Invia i comandi LFTP
+  - service: hassio.addon_stdin
+    data:
+      addon: lftp_ftp_worker
+      input: >
+        cd /public/da_sud; rm -rf *; mput /share/da_sud/*.mp4;
+        cd /public/est_piazzola; rm -rf *; mput /share/est_piazzola/*.mp4;
+        cd /public/est_cortile; rm -rf *; mput /share/est_cortile/*.mp4
+
+  # Pulizia locale tramite shell_command (opzionale)
+  - service: shell_command.pulisci_registrazioni_locali
