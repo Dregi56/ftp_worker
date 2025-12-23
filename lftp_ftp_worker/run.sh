@@ -1,16 +1,16 @@
 #!/usr/bin/with-conten-env bashio
 
-# Recupera le credenziali dalla configurazione dell'add-on
+bashio::log.info "--- MOTORE LFTP AVVIATO ---"
+
+# Recupera configurazioni
 HOST=$(bashio::config 'host')
 USER=$(bashio::config 'username')
 PASS=$(bashio::config 'password')
 
-bashio::log.info "--- MOTORE LFTP AVVIATO ---"
-bashio::log.info "Connesso all'host: ${HOST}"
+bashio::log.info "Connesso a: ${HOST}"
 
-# Resta in attesa di comandi tramite stdin (Standard Input)
+# Loop infinito per restare attivo
 while read -r input; do
-    bashio::log.info "Esecuzione comando: $input"
-    # Esegue il comando su LFTP e poi chiude la sessione per quel comando
+    bashio::log.info "Eseguo: $input"
     lftp -u "${USER},${PASS}" "${HOST}" -e "${input}; quit"
 done
