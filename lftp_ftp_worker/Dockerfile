@@ -1,14 +1,12 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Installazione dei pacchetti necessari (lftp e bash)
-RUN apk add --no-cache lftp bash
+# Installazione pacchetti
+RUN apk add --no-cache lftp bash dos2unix
 
-# Copia lo script run.sh dal tuo repository GitHub alla radice del container
+# Copia e pulizia script
 COPY run.sh /run.sh
+RUN dos2unix /run.sh && chmod a+x /run.sh
 
-# Rendi lo script eseguibile (permessi Linux)
-RUN chmod a+x /run.sh
-
-# Comando di avvio: forza l'uso di bash per caricare il file
-ENTRYPOINT [ "/run.sh" ]
+# Avvio tramite l'ambiente S6 di Home Assistant
+CMD [ "/run.sh" ]
