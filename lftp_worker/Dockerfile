@@ -5,7 +5,8 @@ WORKDIR /
 
 RUN apk add --no-cache lftp bash dos2unix
 
-COPY run.sh /run.sh
+# COPIA ESPLICITA E SICURA
+COPY ./run.sh /run.sh
 
-RUN chmod +x /run.sh \
+RUN chmod 755 /run.sh \
     && dos2unix /run.sh
