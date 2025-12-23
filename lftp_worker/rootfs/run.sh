@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv bashio
 
-bashio::log.info "--- MOTORE LFTP AVVIATO (v1.0.22) ---"
+bashio::log.info "--- MOTORE LFTP AVVIATO (v1.0.25) ---"
 
 HOST=$(bashio::config 'host')
 USER=$(bashio::config 'username')
