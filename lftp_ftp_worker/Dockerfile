@@ -6,7 +6,6 @@ RUN apk add --no-cache lftp bash
 
 # Copia script
 COPY run.sh /run.sh
-COPY lftp_script.lftp /lftp_script.lftp
 
 # Permessi
 RUN chmod +x /run.sh
