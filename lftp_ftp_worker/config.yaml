@@ -1,6 +1,6 @@
 name: "LFTP FTP Worker"
 version: "1.0.12"
-slug: "lftp_ftp_worker"
+slug: "lftp_worker"
 description: "Motore LFTP universale per trasferimenti tramite comandi stdin"
 startup: "services"
 boot: "auto"
