@@ -1,11 +1,11 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Installazione pacchetti
+WORKDIR /
+
 RUN apk add --no-cache lftp bash dos2unix
 
-# Copia lo script di avvio
-COPY run.sh /
-RUN chmod a+x /run.sh && dos2unix /run.sh
+COPY run.sh /run.sh
 
-CMD [ "/run.sh" ]
+RUN chmod +x /run.sh \
+    && dos2unix /run.sh
