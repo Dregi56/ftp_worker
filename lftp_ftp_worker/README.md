@@ -8,9 +8,10 @@ Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificar
 
 ## Informazioni sul Progetto
 **Data Ultimo Aggiornamento:** 23 Dicembre 2025
-* **Versione Corrente:** 1.0.6 "Universal Edition"
+* **Versione Corrente:** 1.0.7 "Universal Edition"
 
 ## Registro delle Modifiche
+- **v1.0.7 (23/12/2025):** Correzione bug directory
 - **v1.0.6 (23/12/2025):** Correzione bug run.sh
 - **v1.0.5 (23/12/2025):** Trasformazione in motore universale tramite `stdin`. Aggiunta gestione dinamica dei comandi lftp.
 - **v1.0.0:** Versione iniziale del worker FTP.
