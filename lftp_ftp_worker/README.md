@@ -8,10 +8,10 @@ Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificar
 
 ## Informazioni sul Progetto
 **Data Ultimo Aggiornamento:** 23 Dicembre 2025
-* **Versione Corrente:** 1.0.4 "Universal Edition"
+* **Versione Corrente:** 1.0.5 "Universal Edition"
 
 ## Registro delle Modifiche
-- **v1.0.4 (23/12/2025):** Trasformazione in motore universale tramite `stdin`. Aggiunta gestione dinamica dei comandi lftp.
+- **v1.0.5 (23/12/2025):** Trasformazione in motore universale tramite `stdin`. Aggiunta gestione dinamica dei comandi lftp.
 - **v1.0.0:** Versione iniziale del worker FTP.
 
 Questo add-on per Home Assistant è un **motore universale LFTP** progettato per gestire trasferimenti file tra l'istanza locale e un server FTP remoto in modo efficiente. A differenza di altri metodi, questo add-on rimane in ascolto e processa comandi complessi tramite lo standard input (`stdin`), permettendo di eseguire pulizie, upload e download in un'unica sessione senza riconnessioni multiple.
