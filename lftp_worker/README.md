@@ -140,7 +140,7 @@ Per questo utilizzo può essere utile impostare `Esegui all'avvio` e `Watchdog` 
 - 🔹 `put <file>`     → Carica **un file locale**
 - 🔹 `mput <pattern>` → Carica **più file** da locale a remoto
 
-🗂️ **COMANDI DI SINCRONIZZAZIONE**
+🔄 **COMANDI DI SINCRONIZZAZIONE**
 ---------------------------------
 - 🔹 `mirror <remote> <local>`          → Sincronizza directory **remota → locale**
 - 🔹 `mirror -c <remote> <local>`       → Sincronizza **solo nuovi file**
