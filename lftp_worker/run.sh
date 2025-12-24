@@ -23,6 +23,15 @@ if [[ -n "$LOCAL_DIR" && -n "$REMOTE_DIR" ]]; then
 
     # Costruisci comando mirror con eventuali filtri
     MIRROR_CMD="mirror --reverse"
+    if [[ -n "$EXTENSIONS" ]]; then
+        bashio::log.info "Filtro estensioni attivo: ${EXTENSIONS}"
+        MIRROR_CMD+=" --exclude-glob *"
+        IFS=',' read -ra EXT_ARRAY <<< "$EXTENSIONS"
+        for EXT in "${EXT_ARRAY[@]}"; do
+            EXT=$(echo "$EXT" | xargs)
+            MIRROR_CMD+=" --include-glob *.${EXT}"
+        done
+    fi
 
     if [[ -n "$EXTENSIONS" ]]; then
         MIRROR_CMD+=" --exclude-glob *"
