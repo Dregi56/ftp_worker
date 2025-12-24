@@ -8,10 +8,11 @@ Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificar
 
 ## Informazioni sul Progetto
 **Data Ultimo Aggiornamento:** 23 Dicembre 2025
-* **Versione Corrente:** 1.1.01 "Universal Edition"
+* **Versione Corrente:** 1.1.4 "Universal Edition"
 
 ## Registro delle Modifiche
-- **v1.1.01 (23/12/2025):** Avvio valido!
+- **v1.1.4 (24/12/2025):** Corretto il bug causato dal fallimento del loggin al server remoto
+- **v1.1.3 (23/12/2025):** Avvio valido!
 - **v1.0.7 (23/12/2025):** Correzione bug directory
 - **v1.0.6 (23/12/2025):** Correzione bug run.sh
 - **v1.0.5 (23/12/2025):** Trasformazione in motore universale tramite `stdin`. Aggiunta gestione dinamica dei comandi lftp.
@@ -30,9 +31,9 @@ Questo add-on per Home Assistant è un **motore universale LFTP** progettato per
 
 1.  Copia l'URL della tua repository GitHub.
 2.  In Home Assistant, vai in **Impostazioni** > **Add-on** > **Raccolta di Add-on**.
-3.  Clicca sui tre puntini in alto a destra e seleziona **Repository**.
-4.  Incolla l'URL e clicca su **Aggiungi**.
-5.  Cerca "LFTP FTP Worker" nella lista, cliccaci sopra e premi **Installa**.
+3.  Clicca sui tre puntini in alto a destra e seleziona **Archivi digitali**.
+4.  Incolla l'URL del repository (https://github.com/Dregi56/ftp_worker) clicca su **Aggiungi**.
+5.  Cerca "LFTP FTP Worker" nella lista degli add-on disponibili, cliccaci sopra e premi **Installa**.
 
 ---
 
@@ -42,7 +43,7 @@ Una volta installato, vai nella scheda **Configurazione** e compila i seguenti c
 
 * `ftp_host`: L'indirizzo del tuo server FTP (es: `ftp.miosito.it`).
 * `ftp_user`: Il tuo nome utente FTP.
-* `ftp_psw`: La tua password FTP.
+* `ftp_psw`: La tua password FTP. (metti tra virgolette)
 
 **Nota:** Assicurati di attivare l'opzione "Watchdog" se vuoi che l'add-on sia sempre attivo e pronto a ricevere comandi.
 
@@ -56,43 +57,43 @@ L'add-on non esegue nulla all'avvio, ma resta in attesa. Per inviare comandi, us
 Questa automazione avvia l'add-on, pulisce le cartelle remote, carica i nuovi file `.mp4` chiude la connessione e pulisce le cartelle locali, spegne l'add-on.
 
 ```yaml
-alias: "Manutenzione Settimanale Video FTP"
-description: "Pulisce remoto, carica nuovi MP4 e svuota locale ogni lunedì notte"
-trigger:
-  - platform: time
-    at: "03:00:00"
-condition:
-  - condition: time
-    weekday:
-      - mon
-action:
-  # 1. Avvio Add-on
-  - service: hassio.addon_start
-    data:
-      addon: lftp_worker
-  - delay: "00:00:20"  # Aspetta 30 secondi che l'add-on faccia il boot
-  # 2. Invio dei comandi all'add-on
-  - service: hassio.addon_stdin
-    data:
-      addon: lftp_worker
-      input: >
-        set xfer:clobber on;
-        set net:timeout 10; set net:max-retries 2;
-        cd /public/da_sud; rm -rf *; mput /media/da_sud/*.mp4;
-        cd /public/est_piazzola; rm -rf *; mput /media/est_piazzola/*.mp4;
-        cd /public/est_cortile; rm -rf *; mput /media/est_cortile/*.mp4;
-        quit;
+- id: weekly_ftp_sync
+  alias: "Manutenzione Settimanale Video FTP"
+  description: "Pulisce remoto, carica nuovi MP4 e svuota locale ogni lunedì notte"
+  trigger:
+    - platform: time
+      at: "03:00:00"
+  condition:
+    - condition: time
+      weekday:
+        - mon
+  action:
+    # 1. Avvio add-on
+    - service: hassio.addon_start
+      data:
+        addon: "6d4a8c9b_lftp_worker"
+    - delay: "00:00:20"   # tempo di boot add-on
+    # 2. Invio comandi lftp (SESSIONE UNICA)
+    - service: hassio.addon_stdin
+      data:
+        addon: "6d4a8c9b_lftp_worker"
+        input: |
+          set cmd:verbose yes
+          cd /public/da_sud
+          rm -rf *
+          mput /media/da_sud/*.mp4
 
-  # 3. Attesa per il trasferimento
-  - delay: "00:05:00"
-
-  # 4. Pulizia dei file locali
-  - service: shell_command.pulisci_locale_da_sud
-  - service: shell_command.pulisci_locale_est_piazzola
-  - service: shell_command.pulisci_locale_est_cortile
-  
-  # 5. Spegni l'add-on per liberare risorse
-  - service: hassio.addon_stop
-    data:
-      addon: lftp_worker
-mode: single
+          cd /public/est_piazzola
+          rm -rf *
+          mput /media/est_piazzola/*.mp4
+          quit
+    # 3. Attesa dopo fine trasferimento 
+    - delay: "00:05:00"
+    # 4. Pulizia locale
+    - service: shell_command.pulisci_locale_da_sud
+    - service: shell_command.pulisci_locale_est_piazzola
+    # 5. Stop add-on
+    - service: hassio.addon_stop
+      data:
+        addon: "6d4a8c9b_lftp_worker"
+  mode: single
