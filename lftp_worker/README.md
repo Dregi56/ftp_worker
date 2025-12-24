@@ -46,7 +46,7 @@ Una volta installato, vai nella scheda **Configurazione** e compila i seguenti c
 * `ftp_user`: Il tuo nome utente FTP.
 * `ftp_psw`: La tua password FTP.
 
-**Nota:** Assicurati di attivare l'opzione "Watchdog" se vuoi che l'add-on sia sempre attivo e pronto a ricevere comandi.
+  🔹 **Nota:** Assicurati di attivare l'opzione "Watchdog" se vuoi che l'add-on sia sempre attivo e pronto a ricevere comandi.
 
 ---
 
