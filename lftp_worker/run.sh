@@ -1,20 +1,26 @@
 #!/usr/bin/with-contenv bashio
 
-# 1. Configurazione per Aruba (Usiamo il tuo metodo echo)
-echo "set ssl:verify-certificate no" > ~/.lftprc
-echo "set ssl:check-hostname no" >> ~/.lftprc
-echo "set ftp:passive-mode on" >> ~/.lftprc
-echo "set ftp:ssl-allow yes" >> ~/.lftprc
+# -------------------------------
+# Configurazione lftp
+# -------------------------------
+cat <<EOF > ~/.lftprc
+set ssl:verify-certificate no
+set ssl:check-hostname no
+set ftp:passive-mode on
+set ftp:ssl-allow yes
+set xfer:clobber on
+set net:timeout 10
+set net:max-retries 2
+EOF
 
-bashio::log.info "--- MOTORE LFTP AVVIATO ---"
+bashio::log.info "--- MOTORE LFTP AVVIATO (SESSIONE PERSISTENTE) ---"
 
 HOST=$(bashio::config 'host')
 USER=$(bashio::config 'username')
 PASS=$(bashio::config 'password')
 
-while read -r CMD; do
-  if [ ! -z "$CMD" ]; then
-    bashio::log.info "Eseguo: $CMD"
-    lftp -u "${USER}"','"${PASS}" "${HOST}" -e "${CMD}; quit"
-  fi
-done
+bashio::log.info "Connessione FTP verso ${HOST}"
+
+# Avvia lftp in modalità interattiva
+# stdin dell'add-on -> stdin di lftp
+exec lftp -u "${USER},${PASS}" "${HOST}"
