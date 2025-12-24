@@ -9,10 +9,10 @@ Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificar
 
 ## Informazioni sul Progetto
 **Data Ultimo Aggiornamento:** 24 Dicembre 2025
-* **Versione Corrente:** 1.2.2 "Universal Edition"
+* **Versione Corrente:** 1.2.3 "Universal Edition"
 
 ## Registro delle Modifiche
-- **v1.2.2 (24/12/2025):** Rinominato l' add-on in LFTP Worker e inserita e-mail autore.
+- **v1.2.3 (24/12/2025):** Rinominato l' add-on in LFTP Worker e inserita e-mail autore.
 - **v1.2.0 (24/12/2025):** Possibilità di configurare un mirror tra due directory, locale e remota, una tantum all'avvio o a tempo.
 - **v1.1.6 (24/12/2025):** Esegui all'avvio settato off. Aggiunti qui esempi di comandi lfpt.
 - **v1.1.5 (24/12/2025):** Cambiato nome all' add-on. Corrette alcune voci restituite nel registro.
