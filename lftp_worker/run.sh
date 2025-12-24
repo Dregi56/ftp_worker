@@ -5,6 +5,7 @@ echo "set ssl:verify-certificate no" > ~/.lftprc
 echo "set ssl:check-hostname no" >> ~/.lftprc
 echo "set ftp:passive-mode on" >> ~/.lftprc
 echo "set ftp:ssl-allow yes" >> ~/.lftprc
+echo "set cmd:verbose no" >> ~/.lftprc
 
 bashio::log.info "--- MOTORE LFTP AVVIATO ---"
 
