@@ -57,6 +57,7 @@ Opzionali per sincronismo:
 * `interval`: Espresso in secondi
 
   🔹 **Nota:** Di default la voce **Esegui all'avvio** è off in quanto è inutile e dispendioso in termini di risorse mantenere apperto un collegamento col server remoto.
+               se si sta utilizzando l'add-on per sincronismo è opportuno settarlo on.
 
 ---
 
