@@ -8,9 +8,10 @@ Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificar
 
 ## Informazioni sul Progetto
 **Data Ultimo Aggiornamento:** 24 Dicembre 2025
-* **Versione Corrente:** 1.1.6 "Universal Edition"
+* **Versione Corrente:** 1.2.0 "Universal Edition"
 
 ## Registro delle Modifiche
+- **v1.2.0 (24/12/2025):** Possibilità di configurare un mirror all'avvio o a tempo tra due directory, locale e remota.
 - **v1.1.6 (24/12/2025):** Esegui all'avvio settato off. Aggiunti qui esempi di comandi lfpt.
 - **v1.1.5 (24/12/2025):** Cambiato nome all' add-on. Corrette alcune voci restituite nel registro.
 - **v1.1.4 (24/12/2025):** Corretto il bug causato dal fallimento del loggin al server remoto.
