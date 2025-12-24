@@ -28,6 +28,7 @@ E' però possibile porre l'add-on in mirroring tra due cartelle.
 📁 Caratteristiche
 * **Motore LFTP**: Supporta operazioni avanzate, modalità passiva e gestione robusta degli errori.
 * **Comandi Dinamici**: Non è limitato a una funzione fissa; accetta qualsiasi comando LFTP tramite automazioni.
+* **Mirroring**: In opzioni si possono stabilire due cartelle da tenere aggiornate
 * **Sicurezza**: Le credenziali FTP sono salvate in modo sicuro nella configurazione dell'add-on.
 
 ---
@@ -49,6 +50,11 @@ Una volta installato, vai nella scheda **Configurazione** e compila i seguenti c
 * `ftp_host`: L'indirizzo del tuo server FTP (es: `ftp.miosito.it`).
 * `ftp_user`: Il tuo nome utente FTP.
 * `ftp_psw`: La tua password FTP.
+
+Opzionali per sincronismo:
+* `local_dir`: Cartella locale.
+* `remote_dir`: Cartella remota.
+* `interval`: Espresso in secondi
 
   🔹 **Nota:** Di default la voce **Esegui all'avvio** è off in quanto è inutile e dispendioso in termini di risorse mantenere apperto un collegamento col server remoto.
 
