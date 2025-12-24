@@ -2,6 +2,8 @@ name: "LFTP Worker"
 version: "1.1.6"
 slug: "lftp_worker"
 description: "Motore LFTP universale per trasferimenti via stdin o mirror automatico con filtro estensioni"
+url: "https://github.com/Dregi56/ftp_worker/lftp_worker"
+author: "Egidio Ziggiotto"
 startup: "services"
 boot: "manual"  # rimane OFF di default per uso temporaneo
 stdin: true
