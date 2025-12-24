@@ -19,7 +19,8 @@ HOST=$(bashio::config 'host')
 USER=$(bashio::config 'username')
 PASS=$(bashio::config 'password')
 
-bashio::log.info "Connessione FTP verso ${HOST}"
+bashio::log.info "Connesso FTP a ${HOST}"
+bashio::log.info "In attesa di comandi..."
 
 # Avvia lftp in modalità interattiva
 # stdin dell'add-on -> stdin di lftp
