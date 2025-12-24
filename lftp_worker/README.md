@@ -8,7 +8,7 @@ Realizzato da **Egidio Ziggiotto - Dregi56**<br>
 Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificarlo e distribuirlo, a patto di citare l'autore originale.
 
 ## Informazioni sul Progetto
-**Data Ultimo Aggiornamento:** 24 Dicembre 2025
+**Data Ultimo Aggiornamento:** 24 Dicembre 2025<br>
 🏷️ **Versione Corrente:** 1.2.3 "Universal Edition"
 
 ## Registro delle Modifiche
