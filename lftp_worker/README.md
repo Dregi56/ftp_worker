@@ -128,35 +128,33 @@ Per questo utilizzo può essere utile impostare `Esegui all'avvio` e `Watchdog` 
 
 📌 **COMANDI DI NAVIGAZIONE**
 ---------------------------------
-🔹 `ls`             → Lista file e cartelle **remote**
-🔹 `pwd`            → Mostra la directory **remota corrente**
-🔹 `cd <dir>`       → Cambia directory **remota**
+- 🔹 `ls`             → Lista file e cartelle **remote**
+- 🔹 `pwd`            → Mostra la directory **remota corrente**
+- 🔹 `cd <dir>`       → Cambia directory **remota**
 
 📁 **COMANDI DI TRASFERIMENTO BASE**
 ---------------------------------
-🔹 `get <file>`     → Scarica **un file remoto**
-🔹 `mget <pattern>` → Scarica **più file** che corrispondono al pattern (es. `*.mp4`)
-🔹 `put <file>`     → Carica **un file locale**
-🔹 `mput <pattern>` → Carica **più file** da locale a remoto
+- 🔹 `get <file>`     → Scarica **un file remoto**
+- 🔹 `mget <pattern>` → Scarica **più file** che corrispondono al pattern (es. `*.mp4`)
+- 🔹 `put <file>`     → Carica **un file locale**
+- 🔹 `mput <pattern>` → Carica **più file** da locale a remoto
 
 🗂️ **COMANDI DI SINCRONIZZAZIONE**
 ---------------------------------
-🔹 `mirror <remote> <local>`          → Sincronizza directory **remota → locale**
-🔹 `mirror -c <remote> <local>`       → Sincronizza **solo nuovi file**
-🔹 `mirror --reverse <local> <remote>` → Sincronizza **locale → remoto** (upload)
+- 🔹 `mirror <remote> <local>`          → Sincronizza directory **remota → locale**
+- 🔹 `mirror -c <remote> <local>`       → Sincronizza **solo nuovi file**
+- 🔹 `mirror --reverse <local> <remote>` → Sincronizza **locale → remoto** (upload)
 
 🗃️ **COMANDI UTILI PER FILE REMOTI**
 ---------------------------------
-🔹 `mkdir <dir>`    → Crea directory remota
-🔹 `rm <file>`      → Cancella file remoto
-🔹 `mrm <pattern>`  → Cancella più file remoto (con wildcard)
-🔹 `mv <src> <dst>` → Rinomina o sposta un file remoto
+- 🔹 `mkdir <dir>`    → Crea directory remota
+- 🔹 `rm <file>`      → Cancella file remoto
+- 🔹 `mrm <pattern>`  → Cancella più file remoto (con wildcard)
+- 🔹 `mv <src> <dst>` → Rinomina o sposta un file remoto
 
 🛠️ **COMANDI DI CONTROLLO**
 ---------------------------------
-🔹 `help` o `?`     → Mostra aiuto veloce dei comandi
-🔹 `quit` o `exit`  → Chiude la sessione `lftp`
-
-🧠 
+- 🔹 `help` o `?`     → Mostra aiuto veloce dei comandi
+- 🔹 `quit` o `exit`  → Chiude la sessione `lftp`
 
   
