@@ -62,6 +62,7 @@ Opzionali per sincronismo:
 
 🎯 Utilizzo tramite Automazioni
 
+Per questo utilizzo in Configurazione lasciare vuoti gli input per dir_locale e dir_remota e interval
 L'add-on non esegue nulla all'avvio, ma resta in attesa. Per inviare comandi, usa il servizio `hassio.addon_stdin`.
 
 ### Esempio: Manutenzione Settimanale
@@ -110,6 +111,11 @@ Questa automazione avvia l'add-on, pulisce le cartelle remote, carica i nuovi fi
   mode: single
 
 ---
+
+🎯 Utilizzo per sincronismo
+
+Per questo utilizzo impostare  gli input per dir_locale e dir_remota e interval nella sezione Configurazione
+E' possibile mantenere un sincronismo costante tra una cartella locale ed una remota impostandone il nome in configurazione add-on
 
 📌 **COMANDI DI NAVIGAZIONE**
 ---------------------------------
