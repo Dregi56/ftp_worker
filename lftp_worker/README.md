@@ -8,9 +8,10 @@ Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificar
 
 ## Informazioni sul Progetto
 **Data Ultimo Aggiornamento:** 23 Dicembre 2025
-* **Versione Corrente:** 1.1.4 "Universal Edition"
+* **Versione Corrente:** 1.1.5 "Universal Edition"
 
 ## Registro delle Modifiche
+- **v1.1.5 (24/12/2025):** Cambiato nome all' add-on. Corrette alcune voci restituite nel registro
 - **v1.1.4 (24/12/2025):** Corretto il bug causato dal fallimento del loggin al server remoto
 - **v1.1.3 (23/12/2025):** Avvio valido!
 - **v1.0.7 (23/12/2025):** Correzione bug directory
@@ -43,7 +44,7 @@ Una volta installato, vai nella scheda **Configurazione** e compila i seguenti c
 
 * `ftp_host`: L'indirizzo del tuo server FTP (es: `ftp.miosito.it`).
 * `ftp_user`: Il tuo nome utente FTP.
-* `ftp_psw`: La tua password FTP. (metti tra virgolette)
+* `ftp_psw`: La tua password FTP.
 
 **Nota:** Assicurati di attivare l'opzione "Watchdog" se vuoi che l'add-on sia sempre attivo e pronto a ricevere comandi.
 
