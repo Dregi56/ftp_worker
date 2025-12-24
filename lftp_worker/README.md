@@ -117,9 +117,9 @@ Questa automazione avvia l'add-on, pulisce le cartelle remote, carica i nuovi fi
 
 🎯 Utilizzo per sincronismo
 
-Per questo utilizzo impostare  gli input per dir_locale e dir_remota e interval nella sezione `Configurazione`
+Per questo utilizzo impostare  gli input per `dir_locale` e `dir_remota` e `interval` nella sezione `Configurazione`
 E' possibile mantenere un sincronismo costante tra due cartelle, una locale ed una remota, impostandone il nome in configurazione add-on.
-Se non viene impostato `interval` l'esecuzione di sincronismo avviene una tantum all'avvio dell'add-on che può essere richiamato dall'interno di una automazione.
+Se non viene impostato `interval` l'esecuzione di sincronismo avviene una tantum all'avvio dell'add-on, avvio che può essere richiamato dall'interno di una automazione.
 Lasciando vuoto `extension`, tutti i file della cartella veranno sincronizzati, diversamente solo quelli con l'estensione indicata.
 Può essere indicata più di una tipologia di file es. txt, mp4, doc
 Per questo utilizzo può essere utile impostare `Esegui all'avvio` e `Watchdog` su on
