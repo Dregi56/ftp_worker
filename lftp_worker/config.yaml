@@ -1,7 +1,7 @@
 name: "LFTP Worker"
-version: "1.2.1"
+version: "1.1.6"
 slug: "lftp_worker"
-description: "Motore LFTP universale per trasferimenti via stdin o mirror automatico"
+description: "Motore LFTP universale per trasferimenti via stdin o mirror automatico con filtro estensioni"
 startup: "services"
 boot: "manual"  # rimane OFF di default per uso temporaneo
 stdin: true
@@ -18,6 +18,7 @@ options:
   local_dir: ""       # se vuoto → modalità stdin
   remote_dir: ""      # se vuoto → modalità stdin
   interval: ""        # tempo in secondi per mirror periodico; vuoto → mirror all'avvio
+  extensions: ""      # estensioni separate da virgola, vuoto = tutti i file
 schema:
   host: str
   username: str
@@ -25,8 +26,10 @@ schema:
   local_dir: str
   remote_dir: str
   interval: str
+  extensions: str
 map:
   - config:rw
   - share:rw
   - media:rw
+
 
