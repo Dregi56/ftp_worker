@@ -8,10 +8,11 @@ Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificar
 
 ## Informazioni sul Progetto
 **Data Ultimo Aggiornamento:** 24 Dicembre 2025
-* **Versione Corrente:** 1.2.0 "Universal Edition"
+* **Versione Corrente:** 1.2.1 "Universal Edition"
 
 ## Registro delle Modifiche
-- **v1.2.0 (24/12/2025):** Possibilità di configurare un mirror all'avvio o a tempo tra due directory, locale e remota.
+- **v1.2.1 (24/12/2025):** Rinominato l' add-on in LFTP Worker
+- **v1.2.0 (24/12/2025):** Possibilità di configurare un mirror tra due directory, locale e remota, una tantum all'avvio o a tempo.
 - **v1.1.6 (24/12/2025):** Esegui all'avvio settato off. Aggiunti qui esempi di comandi lfpt.
 - **v1.1.5 (24/12/2025):** Cambiato nome all' add-on. Corrette alcune voci restituite nel registro.
 - **v1.1.4 (24/12/2025):** Corretto il bug causato dal fallimento del loggin al server remoto.
@@ -21,7 +22,8 @@ Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificar
 - **v1.0.5 (23/12/2025):** Trasformazione in motore universale tramite `stdin`. Aggiunta gestione dinamica dei comandi lftp.
 - **v1.0.0:** Versione iniziale del worker FTP.
 
-Questo add-on per Home Assistant è un **motore universale LFTP** progettato per gestire trasferimenti file tra l'istanza locale e un server FTP remoto in modo efficiente. A differenza di altri metodi, questo add-on rimane in ascolto e processa comandi complessi tramite lo standard input (`stdin`), permettendo di eseguire pulizie, upload e download in un'unica sessione senza riconnessioni multiple.
+Questo add-on per Home Assistant è un **motore universale LFTP** progettato per gestire trasferimenti file tra l'istanza locale e un server FTP remoto in modo efficiente. A differenza di altri metodi, questo add-on rimane in ascolto e processa comandi complessi tramite lo standard input (`stdin`), permettendo di eseguire pulizie, upload e download in un'unica sessione senza riconnessioni multiple. 
+E' però possibile porre l'add-on in mirroring tra due cartelle.
 
 📁 Caratteristiche
 * **Motore LFTP**: Supporta operazioni avanzate, modalità passiva e gestione robusta degli errori.
