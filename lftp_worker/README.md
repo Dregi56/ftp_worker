@@ -1,4 +1,4 @@
-# LFTP FTP Worker Add-on
+# LFTP Worker Add-on
 ---
 
 ## Autore
