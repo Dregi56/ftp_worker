@@ -23,7 +23,7 @@ Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificar
 - **v1.0.0:** Versione iniziale del worker FTP.
 
 Questo add-on per Home Assistant è un **motore universale LFTP** progettato per gestire trasferimenti file tra l'istanza locale e un server FTP remoto in modo efficiente. A differenza di altri metodi, questo add-on rimane in ascolto e processa comandi complessi tramite lo standard input (`stdin`), permettendo di eseguire pulizie, upload e download in un'unica sessione senza riconnessioni multiple. 
-E' però possibile porre l'add-on in mirroring tra due cartelle.
+E' però possibile porre l'add-on in mirroring tra due cartelle, anche filtrando i file che si vogliono mantenere aggiornati.
 
 📁 Caratteristiche
 * **Motore LFTP**: Supporta operazioni avanzate, modalità passiva e gestione robusta degli errori.
@@ -55,6 +55,7 @@ Opzionali per sincronismo:
 * `local_dir`: Cartella locale.
 * `remote_dir`: Cartella remota.
 * `interval`: Espresso in secondi
+* `extensions`: es. txt, mp4
 
   🔹 **Nota:** Di default la voce **Esegui all'avvio** è off in quanto è inutile e dispendioso in termini di risorse mantenere apperto un collegamento col server remoto.
                Se si sta utilizzando l'add-on per sincronismo è opportuno settarlo on.
@@ -115,8 +116,13 @@ Questa automazione avvia l'add-on, pulisce le cartelle remote, carica i nuovi fi
 
 🎯 Utilizzo per sincronismo
 
-Per questo utilizzo impostare  gli input per dir_locale e dir_remota e interval nella sezione Configurazione
-E' possibile mantenere un sincronismo costante tra una cartella locale ed una remota impostandone il nome in configurazione add-on
+Per questo utilizzo impostare  gli input per dir_locale e dir_remota e interval nella sezione `Configurazione`
+E' possibile mantenere un sincronismo costante tra due cartelle, una locale ed una remota, impostandone il nome in configurazione add-on.
+Se non viene impostato `interval` l'esecuzione di sincronismo avviene una tantum all'avvio dell'add-on che può essere richiamato dall'interno di una automazione.
+Lasciando vuoto `extension`, tutti i file della cartella veranno sincronizzati, diversamente solo quelli con l'estensione indicata.
+Può essere indicata più di una tipologia di file es. txt, mp4, doc
+
+---
 
 📌 **COMANDI DI NAVIGAZIONE**
 ---------------------------------
