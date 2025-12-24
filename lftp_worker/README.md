@@ -27,7 +27,7 @@ Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificar
 Questo add-on per Home Assistant è un **motore universale LFTP** progettato per gestire trasferimenti file tra l'istanza locale e un server FTP remoto in modo efficiente. A differenza di altri metodi, questo add-on rimane in ascolto e processa comandi complessi tramite lo standard input (`stdin`), permettendo di eseguire pulizie, upload e download in un'unica sessione senza riconnessioni multiple. 
 E' però possibile porre l'add-on in mirroring tra due cartelle, anche filtrando i file che si vogliono mantenere aggiornati.
 
-📁 Caratteristiche
+✨ Caratteristiche
 * **Motore LFTP**: Supporta operazioni avanzate, modalità passiva e gestione robusta degli errori.
 * **Comandi Dinamici**: Non è limitato a una funzione fissa; accetta qualsiasi comando LFTP tramite automazioni.
 * **Mirroring**: In opzioni si possono stabilire due cartelle da tenere aggiornate
