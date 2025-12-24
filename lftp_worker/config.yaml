@@ -1,9 +1,9 @@
-name: "LFTP Worker"
-version: "1.1.6"
+name: "LFTP FTP Worker"
+version: "1.2.0"
 slug: "lftp_worker"
-description: "Motore LFTP universale per trasferimenti tramite comandi stdin"
+description: "Motore LFTP universale per trasferimenti via stdin o mirror automatico"
 startup: "services"
-boot: "manual"
+boot: "manual"  # rimane OFF di default per uso temporaneo
 stdin: true
 arch:
   - aarch64
@@ -15,11 +15,18 @@ options:
   host: "indirizzo.server.ftp"
   username: "username"
   password: "password"
+  local_dir: ""       # se vuoto → modalità stdin
+  remote_dir: ""      # se vuoto → modalità stdin
+  interval: ""        # tempo in secondi per mirror periodico; vuoto → mirror all'avvio
 schema:
   host: str
   username: str
-  password: password
+  password: str
+  local_dir: str
+  remote_dir: str
+  interval: str
 map:
   - config:rw
   - share:rw
   - media:rw
+
