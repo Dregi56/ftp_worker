@@ -121,6 +121,7 @@ E' possibile mantenere un sincronismo costante tra due cartelle, una locale ed u
 Se non viene impostato `interval` l'esecuzione di sincronismo avviene una tantum all'avvio dell'add-on che può essere richiamato dall'interno di una automazione.
 Lasciando vuoto `extension`, tutti i file della cartella veranno sincronizzati, diversamente solo quelli con l'estensione indicata.
 Può essere indicata più di una tipologia di file es. txt, mp4, doc
+Per questo utilizzo può essere utile impostare `Esegui all'avvio` e `Watchdog` su on
 
 ---
 
