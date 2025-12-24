@@ -14,24 +14,33 @@ PASS=$(bashio::config 'password')
 LOCAL_DIR=$(bashio::config 'local_dir')
 REMOTE_DIR=$(bashio::config 'remote_dir')
 INTERVAL=$(bashio::config 'interval')
+EXTENSIONS=$(bashio::config 'extensions')
 
 bashio::log.info "Connessione FTP verso ${HOST}"
 
 if [[ -n "$LOCAL_DIR" && -n "$REMOTE_DIR" ]]; then
     bashio::log.info "Sincronizzazione automatica abilitata"
 
+    # Costruisci comando mirror con eventuali filtri
+    MIRROR_CMD="mirror --reverse"
+
+    if [[ -n "$EXTENSIONS" ]]; then
+        IFS=',' read -ra EXT_ARRAY <<< "$EXTENSIONS"
+        for EXT in "${EXT_ARRAY[@]}"; do
+            MIRROR_CMD+=" --include-glob *.${EXT}"
+        done
+    fi
+
     if [[ -z "$INTERVAL" ]]; then
         # Mirror singolo all’avvio
         bashio::log.info "Eseguo mirror una sola volta all'avvio..."
-        lftp -u "${USER},${PASS}" "${HOST}" \
-             -e "mirror --reverse \"${LOCAL_DIR}\" \"${REMOTE_DIR}\"; quit"
+        lftp -u "${USER},${PASS}" "${HOST}" -e "${MIRROR_CMD} \"${LOCAL_DIR}\" \"${REMOTE_DIR}\"; quit"
         bashio::log.info "Sincronizzazione completata"
     else
         # Loop periodico
         bashio::log.info "Eseguo mirror ogni ${INTERVAL} secondi..."
         while true; do
-            lftp -u "${USER},${PASS}" "${HOST}" \
-                 -e "mirror --reverse \"${LOCAL_DIR}\" \"${REMOTE_DIR}\"; quit"
+            lftp -u "${USER},${PASS}" "${HOST}" -e "${MIRROR_CMD} \"${LOCAL_DIR}\" \"${REMOTE_DIR}\"; quit"
             bashio::log.info "Attendo ${INTERVAL} secondi prima del prossimo mirror..."
             sleep "${INTERVAL}"
         done
