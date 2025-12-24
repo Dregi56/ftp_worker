@@ -111,7 +111,7 @@ Questa automazione avvia l'add-on, pulisce le cartelle remote, carica i nuovi fi
       data:
         addon: "6d4a8c9b_lftp_worker"
   mode: single
-
+```
 ---
 
 🎯 Utilizzo per sincronismo
