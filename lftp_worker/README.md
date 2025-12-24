@@ -3,7 +3,7 @@
 
 ## Autore
 Realizzato da **Egidio Ziggiotto - Dregi56**<br>
-📧 [dregi@cyberservices.com](mailto:dregi@cyberservices.com).
+📧 [dregi@cyberservices.com](mailto:dregi@cyberservices.com?subject=Info%20LFTP%20Worker%20Add-on).
 ## Licenza
 Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificarlo e distribuirlo, a patto di citare l'autore originale.
 
