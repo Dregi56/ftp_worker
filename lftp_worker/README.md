@@ -8,13 +8,14 @@ Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificar
 
 ## Informazioni sul Progetto
 **Data Ultimo Aggiornamento:** 24 Dicembre 2025
-* **Versione Corrente:** 1.1.5 "Universal Edition"
+* **Versione Corrente:** 1.1.6 "Universal Edition"
 
 ## Registro delle Modifiche
-- **v1.1.5 (24/12/2025):** Cambiato nome all' add-on. Corrette alcune voci restituite nel registro
-- **v1.1.4 (24/12/2025):** Corretto il bug causato dal fallimento del loggin al server remoto
+- **v1.1.6 (24/12/2025):** Esegui all'avvio settato off. Aggiunti qui esempi di comandi lfpt.
+- **v1.1.5 (24/12/2025):** Cambiato nome all' add-on. Corrette alcune voci restituite nel registro.
+- **v1.1.4 (24/12/2025):** Corretto il bug causato dal fallimento del loggin al server remoto.
 - **v1.1.3 (23/12/2025):** Avvio valido!
-- **v1.0.7 (23/12/2025):** Correzione bug directory
+- **v1.0.7 (23/12/2025):** Correzione bug directory.
 - **v1.0.6 (23/12/2025):** Correzione bug run.sh
 - **v1.0.5 (23/12/2025):** Trasformazione in motore universale tramite `stdin`. Aggiunta gestione dinamica dei comandi lftp.
 - **v1.0.0:** Versione iniziale del worker FTP.
@@ -107,7 +108,6 @@ Questa automazione avvia l'add-on, pulisce le cartelle remote, carica i nuovi fi
 🔹 `pwd`            → Mostra la directory **remota corrente**
 🔹 `cd <dir>`       → Cambia directory **remota**
 
-
 📁 **COMANDI DI TRASFERIMENTO BASE**
 ---------------------------------
 🔹 `get <file>`     → Scarica **un file remoto**
@@ -115,13 +115,11 @@ Questa automazione avvia l'add-on, pulisce le cartelle remote, carica i nuovi fi
 🔹 `put <file>`     → Carica **un file locale**
 🔹 `mput <pattern>` → Carica **più file** da locale a remoto
 
-
 🗂️ **COMANDI DI SINCRONIZZAZIONE**
 ---------------------------------
 🔹 `mirror <remote> <local>`          → Sincronizza directory **remota → locale**
 🔹 `mirror -c <remote> <local>`       → Sincronizza **solo nuovi file**
 🔹 `mirror --reverse <local> <remote>` → Sincronizza **locale → remoto** (upload)
-
 
 🗃️ **COMANDI UTILI PER FILE REMOTI**
 ---------------------------------
@@ -129,7 +127,6 @@ Questa automazione avvia l'add-on, pulisce le cartelle remote, carica i nuovi fi
 🔹 `rm <file>`      → Cancella file remoto
 🔹 `mrm <pattern>`  → Cancella più file remoto (con wildcard)
 🔹 `mv <src> <dst>` → Rinomina o sposta un file remoto
-
 
 🛠️ **COMANDI DI CONTROLLO**
 ---------------------------------
