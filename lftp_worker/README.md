@@ -51,7 +51,7 @@ Una volta installato, vai nella scheda **Configurazione** e compila i seguenti c
 
 ---
 
-📌 Utilizzo tramite Automazioni
+🎯 Utilizzo tramite Automazioni
 
 L'add-on non esegue nulla all'avvio, ma resta in attesa. Per inviare comandi, usa il servizio `hassio.addon_stdin`.
 
