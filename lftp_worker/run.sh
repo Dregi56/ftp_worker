@@ -62,10 +62,15 @@ if [[ -n "$LOCAL_DIR" && -n "$REMOTE_DIR" ]]; then
 else
     # Modalità stdin
     bashio::log.info "--- MOTORE LFTP PRONTO A RICEVERE COMANDI ---"
+
+    # Avvio LFTP come coprocesso, rimane aperto
+    coproc LFTP_PROC { lftp -u "${USER},${PASS}" ftps://"${HOST}"; }
+
+    # Leggi comandi dall'automazione e inviali al coprocesso
     while read -r CMD; do
         if [[ -n "$CMD" ]]; then
-            bashio::log.info "Eseguo: $CMD"
-            lftp -u "${USER},${PASS}" "${HOST}" -e "${CMD}; quit"
+            bashio::log.info "Invio comando: $CMD"
+            echo "$CMD" >&"${LFTP_PROC[1]}"
         fi
     done
 fi
