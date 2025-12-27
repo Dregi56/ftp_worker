@@ -54,8 +54,7 @@ else
     bashio::log.info "--- MOTORE LFTP PRONTO A RICEVERE COMANDI ---"
 
     # Avvio LFTP come coprocesso, rimane aperto
-    coproc LFTP_PROC { lftp -u "${USER},${PASS}" ftps://"${HOST}"; }
-
+    coproc LFTP_PROC { lftp -u "${USER},${PASS}" ftp://"${HOST}"; }
     # Leggi comandi dall'automazione e inviali al coprocesso
     while read -r CMD; do
         if [[ -n "$CMD" ]]; then
