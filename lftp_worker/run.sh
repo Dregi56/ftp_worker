@@ -31,7 +31,7 @@ if [[ -n "$LOCAL_DIR" && -n "$REMOTE_DIR" ]]; then
        for EXT in "${EXT_ARRAY[@]}"; do
           EXT=$(echo "$EXT" | xargs)
           MIRROR_CMD+=" --include-glob *.${EXT}"
-    done
+       done
     fi
 
     if [[ -z "$INTERVAL" ]]; then
