@@ -9,9 +9,10 @@ Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificar
 
 ## Informazioni sul Progetto
 **Data Ultimo Aggiornamento:** 24 Dicembre 2025<br>
-🏷️ **Versione Corrente:** 1.2.4 "Universal Edition"
+🏷️ **Versione Corrente:** 1.2.7 "Universal Edition"
 
 ## Registro delle Modifiche
+- **v1.2.7 (27/12/2025):** Configurato FIFO per output nel registro dell'add-on
 - **v1.2.4 (24/12/2025):** Aggiunti verbose no per per tenere pulito il registro.
 - **v1.2.3 (24/12/2025):** Rinominato l' add-on in LFTP Worker e inserita e-mail autore.
 - **v1.2.0 (24/12/2025):** Possibilità di configurare un mirror tra due directory, locale e remota, una tantum all'avvio o a tempo.
