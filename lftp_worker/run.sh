@@ -52,23 +52,23 @@ if [[ -n "$LOCAL_DIR" && -n "$REMOTE_DIR" ]]; then
 else
     # Modalità stdin
     bashio::log.info "--- MOTORE LFTP PRONTO A RICEVERE COMANDI ---"
+    # Avvio LFTP come coprocesso, rimane aperto
+    coproc LFTP_PROC { lftp -u "${USER},${PASS}" ftp://"${HOST}"; }
 
-coproc LFTP_PROC { lftp -u "${USER},${PASS}" ftp://"${HOST}"; }
+    # Legge l’output di LFTP e lo manda al log di Home Assistant
+    while read -r LINE <&"${LFTP_PROC[0]}"; do
+        bashio::log.info "[LFTP] $LINE"
+        done &
 
-# Reader stdout lftp
-while read -r LINE <&"${LFTP_PROC[0]}"; do
-    bashio::log.info "[LFTP] $LINE"
-done &
+    # Leggi comandi dall'automazione e inviali al coprocesso
+   while read -r CMD; do
+       [[ -z "$CMD" ]] && continue
 
-# Writer stdin lftp
-while read -r CMD; do
-    [[ -z "$CMD" ]] && continue
+       CMD="${CMD%\"}"
+       CMD="${CMD#\"}"
 
-    CMD="${CMD%\"}"
-    CMD="${CMD#\"}"
-
-    bashio::log.info "Invio comando: $CMD"
-    echo "$CMD" >&"${LFTP_PROC[1]}"
-done
+       bashio::log.info "Invio comando: $CMD"
+       echo "$CMD" >&"${LFTP_PROC[1]}"
+   done
 
 fi
