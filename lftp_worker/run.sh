@@ -62,29 +62,25 @@ if [[ -n "$LOCAL_DIR" && -n "$REMOTE_DIR" ]]; then
 else
     bashio::log.info "--- MOTORE LFTP PRONTO A RICEVERE COMANDI ---"
 
-    # Creazione FIFO se non esiste
-    FIFO="/tmp/lftp_fifo"
-    [[ ! -p "$FIFO" ]] && mkfifo "$FIFO"
+    # Creazione FIFO per comandi
+    FIFO_CMD="/tmp/lftp_fifo"
+    [[ ! -p "$FIFO_CMD" ]] && mkfifo "$FIFO_CMD"
 
-    # Avvio LFTP in background collegato alla FIFO
-    lftp -u "${USER},${PASS}" ftp://"${HOST}" < "$FIFO" &
-    LFTP_PID=$!
-
-    # Reader stdout per log
-    # Legge l’output di LFTP e lo scrive nei log dell’add-on
-    while read -r LINE <&"${LFTP_PID}"; do
+    # Avvio LFTP in background, stdout line-buffered
+    # Tutto l'output di LFTP viene catturato dal while read
+    stdbuf -oL lftp -u "${USER},${PASS}" ftp://"${HOST}" < "$FIFO_CMD" 2>&1 | while read -r LINE; do
         bashio::log.info "[LFTP] $LINE"
     done &
 
-    # Loop per leggere comandi dall’automazione
+    # Loop per leggere input dall'automazione
     while read -r CMD; do
         [[ -z "$CMD" ]] && continue
 
-        # Pulizia eventuali virgolette
+        # Rimuove eventuali virgolette
         CMD="${CMD%\"}"
         CMD="${CMD#\"}"
 
         bashio::log.info "Invio comando: $CMD"
-        echo "$CMD" > "$FIFO"
+        echo "$CMD" > "$FIFO_CMD"
     done
 fi
