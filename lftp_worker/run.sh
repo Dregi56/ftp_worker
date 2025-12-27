@@ -68,7 +68,7 @@ else
 
     # Avvio LFTP in background, stdout line-buffered
     # Tutto l'output di LFTP viene catturato dal while read
-    stdbuf -oL lftp -u "${USER},${PASS}" ftp://"${HOST}" < "$FIFO_CMD" 2>&1 | while read -r LINE; do
+    lftp -u "${USER},${PASS}" ftp://"${HOST}" < "$FIFO_CMD" 2>&1 | while read -r LINE; do
         bashio::log.info "[LFTP] $LINE"
     done &
 
