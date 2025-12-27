@@ -53,13 +53,22 @@ else
     # Modalità stdin
     bashio::log.info "--- MOTORE LFTP PRONTO A RICEVERE COMANDI ---"
 
-    # Avvio LFTP come coprocesso, rimane aperto
-    coproc LFTP_PROC { lftp -u "${USER},${PASS}" ftp://"${HOST}"; }
-    # Leggi comandi dall'automazione e inviali al coprocesso
-    while read -r CMD; do
-        if [[ -n "$CMD" ]]; then
-            bashio::log.info "Invio comando: $CMD"
-            echo "$CMD" >&"${LFTP_PROC[1]}"
-        fi
-    done
+coproc LFTP_PROC { lftp -u "${USER},${PASS}" ftp://"${HOST}"; }
+
+# Reader stdout lftp
+while read -r LINE <&"${LFTP_PROC[0]}"; do
+    bashio::log.info "[LFTP] $LINE"
+done &
+
+# Writer stdin lftp
+while read -r CMD; do
+    [[ -z "$CMD" ]] && continue
+
+    CMD="${CMD%\"}"
+    CMD="${CMD#\"}"
+
+    bashio::log.info "Invio comando: $CMD"
+    echo "$CMD" >&"${LFTP_PROC[1]}"
+done
+
 fi
