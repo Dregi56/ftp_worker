@@ -1,6 +1,8 @@
 #!/usr/bin/with-contenv bashio
 
-# 1️⃣ Configurazione Aruba / SSL / FTP
+# =========================================
+# Configurazione FTP / SSL / LFTP
+# =========================================
 echo "set ssl:verify-certificate no" > ~/.lftprc
 echo "set ssl:check-hostname no" >> ~/.lftprc
 echo "set ftp:passive-mode on" >> ~/.lftprc
@@ -9,6 +11,9 @@ echo "set cmd:verbose no" >> ~/.lftprc
 
 bashio::log.info "--- MOTORE LFTP AVVIATO ---"
 
+# =========================================
+# Config
+# =========================================
 HOST=$(bashio::config 'host')
 USER=$(bashio::config 'username')
 PASS=$(bashio::config 'password')
@@ -19,51 +24,67 @@ EXTENSIONS=$(bashio::config 'extensions')
 
 bashio::log.info "Connessione FTP verso ${HOST}"
 
+# =========================================
+# Mirroring automatico (se configurato)
+# =========================================
 if [[ -n "$LOCAL_DIR" && -n "$REMOTE_DIR" ]]; then
     bashio::log.info "Sincronizzazione automatica abilitata"
 
-    # Costruisci comando mirror con eventuali filtri
     MIRROR_CMD="mirror --reverse"
+    
+    # Filtro estensioni
     if [[ -n "$EXTENSIONS" ]]; then
-       bashio::log.info "Filtro estensioni attivo: ${EXTENSIONS}"
-       MIRROR_CMD+=" --exclude-glob *"
-       IFS=',' read -ra EXT_ARRAY <<< "$EXTENSIONS"
-       for EXT in "${EXT_ARRAY[@]}"; do
-          EXT=$(echo "$EXT" | xargs)
-          MIRROR_CMD+=" --include-glob *.${EXT}"
-       done
+        bashio::log.info "Filtro estensioni attivo: ${EXTENSIONS}"
+        MIRROR_CMD+=" --exclude-glob *"
+        IFS=',' read -ra EXT_ARRAY <<< "$EXTENSIONS"
+        for EXT in "${EXT_ARRAY[@]}"; do
+            EXT=$(echo "$EXT" | xargs)
+            MIRROR_CMD+=" --include-glob *.${EXT}"
+        done
     fi
 
     if [[ -z "$INTERVAL" ]]; then
-        # Mirror singolo all’avvio
-        bashio::log.info "Eseguo mirror una sola volta all'avvio..."
-        lftp -u "${USER},${PASS}" "${HOST}" -e "${MIRROR_CMD} \"${LOCAL_DIR}\" \"${REMOTE_DIR}\"; quit"
+        bashio::log.info "Eseguo mirror singolo all'avvio..."
+        lftp -u "${USER},${PASS}" ftp://"${HOST}" -e "${MIRROR_CMD} \"${LOCAL_DIR}\" \"${REMOTE_DIR}\"; quit"
         bashio::log.info "Sincronizzazione completata"
     else
-        # Loop periodico
-        bashio::log.info "Eseguo mirror ogni ${INTERVAL} secondi..."
+        bashio::log.info "Eseguo mirror periodico ogni ${INTERVAL} secondi..."
         while true; do
-            lftp -u "${USER},${PASS}" "${HOST}" -e "${MIRROR_CMD} \"${LOCAL_DIR}\" \"${REMOTE_DIR}\"; quit"
+            lftp -u "${USER},${PASS}" ftp://"${HOST}" -e "${MIRROR_CMD} \"${LOCAL_DIR}\" \"${REMOTE_DIR}\"; quit"
             bashio::log.info "Attendo ${INTERVAL} secondi prima del prossimo mirror..."
             sleep "${INTERVAL}"
         done
     fi
 
+# =========================================
+# Modalità stdin (FIFO) per comandi dall'automazione
+# =========================================
 else
-    # Modalità stdin
     bashio::log.info "--- MOTORE LFTP PRONTO A RICEVERE COMANDI ---"
-    # Avvio LFTP come coprocesso, rimane aperto
-    coproc LFTP_PROC { lftp -u "${USER},${PASS}" ftp://"${HOST}"; }
 
-    # Leggi comandi dall'automazione e inviali al coprocesso
-   while read -r CMD; do
-       [[ -z "$CMD" ]] && continue
+    # Creazione FIFO se non esiste
+    FIFO="/tmp/lftp_fifo"
+    [[ ! -p "$FIFO" ]] && mkfifo "$FIFO"
 
-       CMD="${CMD%\"}"
-       CMD="${CMD#\"}"
+    # Avvio LFTP in background collegato alla FIFO
+    lftp -u "${USER},${PASS}" ftp://"${HOST}" < "$FIFO" &
+    LFTP_PID=$!
 
-       bashio::log.info "Invio comando: $CMD"
-       echo "$CMD" >&"${LFTP_PROC[1]}"
-   done
+    # Reader stdout per log
+    # Legge l’output di LFTP e lo scrive nei log dell’add-on
+    while read -r LINE <&"${LFTP_PID}"; do
+        bashio::log.info "[LFTP] $LINE"
+    done &
 
+    # Loop per leggere comandi dall’automazione
+    while read -r CMD; do
+        [[ -z "$CMD" ]] && continue
+
+        # Pulizia eventuali virgolette
+        CMD="${CMD%\"}"
+        CMD="${CMD#\"}"
+
+        bashio::log.info "Invio comando: $CMD"
+        echo "$CMD" > "$FIFO"
+    done
 fi
