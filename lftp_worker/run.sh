@@ -55,11 +55,6 @@ else
     # Avvio LFTP come coprocesso, rimane aperto
     coproc LFTP_PROC { lftp -u "${USER},${PASS}" ftp://"${HOST}"; }
 
-    # Legge l’output di LFTP e lo manda al log di Home Assistant
-    while read -r LINE <&"${LFTP_PROC[0]}"; do
-        bashio::log.info "[LFTP] $LINE"
-        done &
-
     # Leggi comandi dall'automazione e inviali al coprocesso
    while read -r CMD; do
        [[ -z "$CMD" ]] && continue
