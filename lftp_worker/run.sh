@@ -31,7 +31,8 @@ if [[ -n "$LOCAL_DIR" && -n "$REMOTE_DIR" ]]; then
     bashio::log.info "Sincronizzazione automatica abilitata"
 
     MIRROR_CMD="mirror --reverse"
-
+    
+    # Filtro estensioni
     if [[ -n "$EXTENSIONS" ]]; then
         bashio::log.info "Filtro estensioni attivo: ${EXTENSIONS}"
         MIRROR_CMD+=" --exclude-glob *"
@@ -55,34 +56,31 @@ if [[ -n "$LOCAL_DIR" && -n "$REMOTE_DIR" ]]; then
         done
     fi
 
-    # Dopo il mirror automatico, avvia comunque la modalità interattiva
-    bashio::log.info "--- AVVIO MODALITÀ INTERATTIVA ---"
-fi
-
 # =========================================
 # Modalità stdin (FIFO) per comandi dall'automazione
 # =========================================
-bashio::log.info "--- MOTORE LFTP PRONTO A RICEVERE COMANDI ---"
+else
+    bashio::log.info "--- MOTORE LFTP PRONTO A RICEVERE COMANDI ---"
 
-# Creazione FIFO per comandi
-FIFO_CMD="/tmp/lftp_fifo"
-[[ ! -p "$FIFO_CMD" ]] && mkfifo "$FIFO_CMD"
+    # Creazione FIFO per comandi
+    FIFO_CMD="/tmp/lftp_fifo"
+    [[ ! -p "$FIFO_CMD" ]] && mkfifo "$FIFO_CMD"
 
-# Avvio LFTP in background con login e un comando iniziale neutro "pwd" per attivare la sessione
-lftp -u "${USER},${PASS}" ftp://"${HOST}" -e "pwd" < "$FIFO_CMD" 2>&1 | while read -r LINE; do
-    bashio::log.info "[LFTP] $LINE"
-done &
+    # Avvio LFTP in background, stdout line-buffered
+    # Tutto l'output di LFTP viene catturato dal while read
+    lftp -u "${USER},${PASS}" ftp://"${HOST}" < "$FIFO_CMD" 2>&1 | while read -r LINE; do
+        bashio::log.info "[LFTP] $LINE"
+    done &
 
-bashio::log.info "Sessione LFTP avviata, in ascolto di comandi stdin"
+    # Loop per leggere input dall'automazione
+    while read -r CMD; do
+        [[ -z "$CMD" ]] && continue
 
-# Loop per leggere input dall'automazione
-while read -r CMD; do
-    [[ -z "$CMD" ]] && continue
+        # Rimuove eventuali virgolette
+        CMD="${CMD%\"}"
+        CMD="${CMD#\"}"
 
-    # Rimuove eventuali virgolette
-    CMD="${CMD%\"}"
-    CMD="${CMD#\"}"
-
-    bashio::log.info "Invio comando: $CMD"
-    echo "$CMD" > "$FIFO_CMD"
-done
+        bashio::log.info "Invio comando: $CMD"
+        echo "$CMD" > "$FIFO_CMD"
+    done
+fi
