@@ -23,16 +23,13 @@ INTERVAL=$(bashio::config 'interval')
 EXTENSIONS=$(bashio::config 'extensions')
 
 # =========================================
-# Funzione: avvio motore interattivo
+# Funzione: avvio motore LFTP interattivo
 # =========================================
 start_interactive_lftp() {
     bashio::log.info "--- MOTORE LFTP INTERATTIVO ATTIVO ---"
 
     FIFO_CMD="/tmp/lftp_fifo"
-    CMD_FILE="/tmp/lftp_cmd.txt"
-
-    [[ -p "$FIFO_CMD" ]] || mkfifo "$FIFO_CMD"
-    touch "$CMD_FILE"
+    [[ ! -p "$FIFO_CMD" ]] && mkfifo "$FIFO_CMD"
 
     # Avvio sessione LFTP persistente
     lftp -u "${USER},${PASS}" ftp://"${HOST}" < "$FIFO_CMD" 2>&1 | \
@@ -40,73 +37,13 @@ start_interactive_lftp() {
         bashio::log.info "[LFTP] $LINE"
     done &
 
-    bashio::log.info "Sessione LFTP avviata"
+    bashio::log.info "Sessione LFTP avviata, in ascolto di comandi stdin"
 
-    # Listener comandi da Home Assistant
-    while true; do
-        CMD=$(cat "$CMD_FILE")
-        if [[ -n "$CMD" ]]; then
-            echo "" > "$CMD_FILE"
-            bashio::log.info ">> $CMD"
-            printf "%s\n" "$CMD" > "$FIFO_CMD"
-        fi
-        sleep 1
-    done
-}
-
-#!/usr/bin/with-contenv bashio
-
-# =========================================
-# Configurazione LFTP
-# =========================================
-echo "set ssl:verify-certificate no" > ~/.lftprc
-echo "set ssl:check-hostname no" >> ~/.lftprc
-echo "set ftp:passive-mode on" >> ~/.lftprc
-echo "set ftp:ssl-allow yes" >> ~/.lftprc
-echo "set cmd:verbose no" >> ~/.lftprc
-
-bashio::log.info "--- ADDON LFTP AVVIATO ---"
-
-# =========================================
-# Config
-# =========================================
-HOST=$(bashio::config 'host')
-USER=$(bashio::config 'username')
-PASS=$(bashio::config 'password')
-LOCAL_DIR=$(bashio::config 'local_dir')
-REMOTE_DIR=$(bashio::config 'remote_dir')
-INTERVAL=$(bashio::config 'interval')
-EXTENSIONS=$(bashio::config 'extensions')
-
-# =========================================
-# Funzione: motore LFTP interattivo
-# =========================================
-start_interactive_lftp() {
-    bashio::log.info "--- MOTORE LFTP INTERATTIVO ATTIVO ---"
-
-    FIFO_CMD="/tmp/lftp_fifo"
-    CMD_FILE="/tmp/c"   # percorso più compatto
-
-    [[ -p "$FIFO_CMD" ]] || mkfifo "$FIFO_CMD"
-    touch "$CMD_FILE"
-
-    # Avvio LFTP persistente
-    lftp -u "${USER},${PASS}" ftp://"${HOST}" < "$FIFO_CMD" 2>&1 | \
-    while read -r LINE; do
-        bashio::log.info "[LFTP] $LINE"
-    done &
-
-    bashio::log.info "Sessione LFTP avviata"
-
-    # Loop per leggere i comandi dal file
-    while true; do
-        CMD=$(cat "$CMD_FILE")
-        if [[ -n "$CMD" ]]; then
-            echo "" > "$CMD_FILE"
-            bashio::log.info ">> $CMD"
-            printf "%s\n" "$CMD" > "$FIFO_CMD"
-        fi
-        sleep 1
+    # Loop di ascolto per comandi direttamente da stdin
+    while read -r CMD; do
+        [[ -z "$CMD" ]] && continue
+        bashio::log.info ">> $CMD"
+        printf "%s\n" "$CMD" > "$FIFO_CMD"
     done
 }
 
@@ -145,7 +82,7 @@ if [[ -n "$LOCAL_DIR" && -n "$REMOTE_DIR" ]]; then
     start_interactive_lftp
 
 # =========================================
-# SOLO MODALITÀ INTERATTIVA
+# SOLO MODALITÀ INTERATTIVA (nessun mirror)
 # =========================================
 else
     start_interactive_lftp
