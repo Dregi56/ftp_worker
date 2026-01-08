@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv bashio
 
 # =========================================
-# Configurazione FTP / SSL / LFTP
+# Configurazione LFTP / SSL
 # =========================================
 cat <<EOF > ~/.lftprc
 set ssl:verify-certificate no
@@ -16,7 +16,7 @@ EOF
 bashio::log.info "--- MOTORE LFTP AVVIATO ---"
 
 # =========================================
-# Config
+# Config utente
 # =========================================
 HOST=$(bashio::config 'host')
 USER=$(bashio::config 'username')
@@ -29,7 +29,7 @@ EXTENSIONS=$(bashio::config 'extensions')
 bashio::log.info "Connessione FTP verso ${HOST}"
 
 # =========================================
-# Mirroring automatico (se configurato)
+# Mirroring automatico all'avvio (se configurato)
 # =========================================
 if [[ -n "$LOCAL_DIR" && -n "$REMOTE_DIR" ]]; then
     bashio::log.info "Sincronizzazione automatica abilitata"
@@ -63,44 +63,59 @@ if [[ -n "$LOCAL_DIR" && -n "$REMOTE_DIR" ]]; then
     fi
 
 # =========================================
-# Modalità stdin persistente (Home Assistant)
+# Modalità persistente con coda comandi interna
 # =========================================
 else
     bashio::log.info "--- MOTORE LFTP PRONTO (SESSIONE PERSISTENTE) ---"
 
     FIFO_CMD="/tmp/lftp_fifo"
-    [[ -p "$FIFO_CMD" ]] || mkfifo "$FIFO_CMD"
+    CMD_FILE="/tmp/lftp_commands.txt"
 
-    # Apriamo il FIFO UNA SOLA VOLTA (FD 3)
+    # Creo FIFO e file coda se non esistono
+    [[ ! -p "$FIFO_CMD" ]] && mkfifo "$FIFO_CMD"
+    [[ ! -f "$CMD_FILE" ]] && touch "$CMD_FILE"
+
     exec 3> "$FIFO_CMD"
 
-    # Avvio LFTP persistente
-    lftp -u "${USER},${PASS}" ftp://"${HOST}" < "$FIFO_CMD" 2>&1 | \
-    while read -r LINE; do
+    # Avvio LFTP in background
+    lftp -u "${USER},${PASS}" ftp://"${HOST}" < "$FIFO_CMD" 2>&1 | while read -r LINE; do
         bashio::log.info "[LFTP] $LINE"
     done &
 
-    # Loop stdin Home Assistant (CORRETTO)
-    while bashio::addon.stdin CMD; do
-        [[ -z "$CMD" ]] && continue
+    # =========================================
+    # Loop principale: stdin + file coda interna
+    # =========================================
+    while true; do
+        # 1️⃣ Leggo eventuali comandi inviati via addon_stdin
+        if bashio::addon.stdin CMD; then
+            [[ -z "$CMD" ]] || echo "$CMD" >> "$CMD_FILE"
+        fi
 
-        # Pulizia input
-        CMD="${CMD%\"}"
-        CMD="${CMD#\"}"
+        # 2️⃣ Leggo comandi dalla coda interna e li invio a LFTP
+        if [[ -s "$CMD_FILE" ]]; then
+            while read -r CMD_LINE; do
+                [[ -z "$CMD_LINE" ]] && continue
 
-        case "${CMD,,}" in
-            quit|bye|exit)
-                bashio::log.warning "Comando '${CMD}' ricevuto → chiusura controllata LFTP"
+                # Pulizia input
+                CMD_LINE="${CMD_LINE%\"}"
+                CMD_LINE="${CMD_LINE#\"}"
 
-                echo "quit" >&3
-                sleep 1
+                case "${CMD_LINE,,}" in
+                    quit|bye|exit)
+                        bashio::log.warning "Comando '${CMD_LINE}' → chiusura LFTP"
+                        echo "quit" >&3
+                        sleep 1
+                        exit 0
+                        ;;
+                esac
 
-                bashio::log.info "Sessione LFTP chiusa. Arresto addon."
-                exit 0
-                ;;
-        esac
+                bashio::log.info "▶ Eseguo comando: $CMD_LINE"
+                echo "$CMD_LINE" >&3
+            done < "$CMD_FILE"
+            # Svuoto file dopo aver eseguito comandi
+            > "$CMD_FILE"
+        fi
 
-        bashio::log.info "▶ LFTP CMD: $CMD"
-        echo "$CMD" >&3
+        sleep 0.2
     done
 fi
