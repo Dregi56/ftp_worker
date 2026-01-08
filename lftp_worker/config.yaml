@@ -1,5 +1,5 @@
 name: "LFTP Worker"
-version: "1.2.17"
+version: "1.2.18"
 slug: "lftp_worker"
 description: "Motore LFTP universale per trasferimenti via stdin o mirror automatico con filtro estensioni"
 url: "https://github.com/Dregi56/ftp_worker/lftp_worker"
