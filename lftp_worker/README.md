@@ -51,9 +51,9 @@ E' però possibile porre l'add-on in mirroring tra due cartelle, anche filtrando
 
 Una volta installato, vai nella scheda **Configurazione** e compila i seguenti campi:
 
-* `ftp_host`: L'indirizzo del tuo server FTP (es: `ftp.miosito.it`).
-* `ftp_user`: Il tuo nome utente FTP.
-* `ftp_psw`: La tua password FTP.
+* `host`: L'indirizzo del tuo server FTP (es: `ftp.miosito.it`).
+* `user`: Il tuo nome utente FTP.
+* `psw`: La tua password FTP.
 
 Opzionali per sincronismo:
 * `local_dir`: Cartella locale.
@@ -63,7 +63,6 @@ Opzionali per sincronismo:
 
   🔹 **Nota:** Di default la voce **Esegui all'avvio** è off in quanto è inutile e dispendioso in termini di risorse mantenere apperto un collegamento col server remoto.
                Se si sta utilizzando l'add-on per sincronismo è opportuno settarlo on.
-
 ---
 
 🎯 Utilizzo tramite Automazioni
@@ -95,22 +94,18 @@ Questa automazione avvia l'add-on, pulisce le cartelle remote, carica i nuovi fi
     - service: hassio.addon_stdin
       data:
         addon: "6d4a8c9b_lftp_worker"
-        input: |
-          set cmd:verbose yes
-          cd /public/da_sud
-          rm -rf *
-          mput /media/da_sud/*.mp4
-
-          cd /public/est_piazzola
-          rm -rf *
-          mput /media/est_piazzola/*.mp4
-          quit
+        input: "set cmd:verbose yes; cd /public/da_sud; rm -rf *; mput /media/da_sud/*.mp4"
     # 3. Attesa dopo fine trasferimento 
     - delay: "00:05:00"
     # 4. Pulizia locale
     - service: shell_command.pulisci_locale_da_sud
     - service: shell_command.pulisci_locale_est_piazzola
-    # 5. Stop add-on
+    # 5. Arresta il collegamento
+    - service: hassio.addon_stdin
+      data:
+        addon: "6d4a8c9b_lftp_worker"
+        input: quit
+    # 6. Stop add-on
     - service: hassio.addon_stop
       data:
         addon: "6d4a8c9b_lftp_worker"
@@ -121,19 +116,13 @@ Questa automazione avvia l'add-on, pulisce le cartelle remote, carica i nuovi fi
 🎯 Utilizzo per sincronismo
 
 Per questo utilizzo impostare  gli input per `dir_locale` e `dir_remota` e `interval` nella sezione `Configurazione`
-E' possibile mantenere un sincronismo costante tra due cartelle, una locale ed una remota, impostandone il nome in configurazione add-on.
+E' possibile mantenere un sincronismo costante tra due cartelle, una locale ed una remota, impostando il nome delle cartelle stesse in configurazione add-on.
 Se non viene impostato `interval` l'esecuzione di sincronismo avviene una tantum all'avvio dell'add-on, avvio che può essere richiamato dall'interno di una automazione.
 Lasciando vuoto `extension`, tutti i file della cartella veranno sincronizzati, diversamente solo quelli con l'estensione indicata.
 Può essere indicata più di una tipologia di file es. txt, mp4, doc
 Per questo utilizzo può essere utile impostare `Esegui all'avvio` e `Watchdog` su on
 
 ---
-
-📌 **COMANDI DI NAVIGAZIONE**
----------------------------------
-- 🔹 `ls`             → Lista file e cartelle **remote**
-- 🔹 `pwd`            → Mostra la directory **remota corrente**
-- 🔹 `cd <dir>`       → Cambia directory **remota**
 
 📁 **COMANDI DI TRASFERIMENTO BASE**
 ---------------------------------
@@ -148,16 +137,17 @@ Per questo utilizzo può essere utile impostare `Esegui all'avvio` e `Watchdog` 
 - 🔹 `mirror -c <remote> <local>`       → Sincronizza **solo nuovi file**
 - 🔹 `mirror --reverse <local> <remote>` → Sincronizza **locale → remoto** (upload)
 
-🗃️ **COMANDI UTILI PER FILE REMOTI**
+📌 **COMANDI UTILI PER FILE REMOTI**
 ---------------------------------
 - 🔹 `mkdir <dir>`    → Crea directory remota
 - 🔹 `rm <file>`      → Cancella file remoto
 - 🔹 `mrm <pattern>`  → Cancella più file remoto (con wildcard)
 - 🔹 `mv <src> <dst>` → Rinomina o sposta un file remoto
-
+     ⚠️ **NOTA IMPORTANTE**
+         Tutti questi comandi non danno alcun riscontro nel file registro dell'add-on!
+  
 🛠️ **COMANDI DI CONTROLLO**
 ---------------------------------
-- 🔹 `help` o `?`     → Mostra aiuto veloce dei comandi
 - 🔹 `quit` o `exit`  → Chiude la sessione `lftp`
 
   
