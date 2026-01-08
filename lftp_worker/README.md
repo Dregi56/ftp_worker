@@ -9,10 +9,10 @@ Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificar
 
 ## Informazioni sul Progetto
 **Data Ultimo Aggiornamento:** 08 Gennaio 2026<br>
-🏷️ **Versione Corrente:** 1.2.20 "Universal Edition"
+🏷️ **Versione Corrente:** 1.2.21 "Universal Edition"
 
 ## Registro delle Modifiche
-- **v1.2.20 (08/01/2026):** Modifiche per interattività al log di registro dell'add-on
+- **v1.2.21 (08/01/2026):** Modifiche per interattività al log di registro dell'add-on
 - **v1.2.7 (27/12/2025):** Configurato FIFO per output nel registro dell'add-on
 - **v1.2.4 (24/12/2025):** Aggiunti verbose no per per tenere pulito il registro.
 - **v1.2.3 (24/12/2025):** Rinominato l' add-on in LFTP Worker e inserita e-mail autore.
@@ -70,6 +70,8 @@ Opzionali per sincronismo:
 
 Per questo utilizzo in Configurazione lasciare vuoti gli input per dir_locale e dir_remota e interval
 L'add-on non esegue nulla all'avvio, ma resta in attesa. Per inviare comandi, usa il servizio `hassio.addon_stdin`.
+⚠️ **NOTA IMPORTANTE**: E' possibile eseguire **una sola riga di comando per volta**. Ma è possibile concatenare comandi separandoli tra loro con 'punto e virgola'
+
 
 ### Esempio: Manutenzione Settimanale
 Questa automazione avvia l'add-on, pulisce le cartelle remote, carica i nuovi file `.mp4` chiude la connessione e pulisce le cartelle locali, spegne l'add-on.
