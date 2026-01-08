@@ -8,9 +8,10 @@ set ssl:verify-certificate no
 set ssl:check-hostname no
 set ftp:passive-mode on
 set ftp:ssl-allow yes
-set cmd:verbose no
 set cmd:interactive yes
 set cmd:fail-exit no
+set cmd:print-always yes
+set cmd:verbose yes
 EOF
 
 bashio::log.info "--- MOTORE LFTP AVVIATO ---"
