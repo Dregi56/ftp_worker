@@ -8,10 +8,11 @@ Realizzato da **Egidio Ziggiotto - Dregi56**<br>
 Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificarlo e distribuirlo, a patto di citare l'autore originale.
 
 ## Informazioni sul Progetto
-**Data Ultimo Aggiornamento:** 24 Dicembre 2025<br>
-🏷️ **Versione Corrente:** 1.2.7 "Universal Edition"
+**Data Ultimo Aggiornamento:** 08 Gennaio 2026<br>
+🏷️ **Versione Corrente:** 1.2.20 "Universal Edition"
 
 ## Registro delle Modifiche
+- **v1.2.20 (08/01/2026):** Modifiche per interattività al log di registro dell'add-on
 - **v1.2.7 (27/12/2025):** Configurato FIFO per output nel registro dell'add-on
 - **v1.2.4 (24/12/2025):** Aggiunti verbose no per per tenere pulito il registro.
 - **v1.2.3 (24/12/2025):** Rinominato l' add-on in LFTP Worker e inserita e-mail autore.
