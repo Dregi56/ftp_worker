@@ -63,7 +63,7 @@ if [[ -n "$LOCAL_DIR" && -n "$REMOTE_DIR" ]]; then
     fi
 
 # =========================================
-# Modalità stdin persistente
+# Modalità stdin persistente (Home Assistant)
 # =========================================
 else
     bashio::log.info "--- MOTORE LFTP PRONTO (SESSIONE PERSISTENTE) ---"
@@ -74,14 +74,14 @@ else
     # Apriamo il FIFO UNA SOLA VOLTA (FD 3)
     exec 3> "$FIFO_CMD"
 
-    # Avvio lftp persistente
+    # Avvio LFTP persistente
     lftp -u "${USER},${PASS}" ftp://"${HOST}" < "$FIFO_CMD" 2>&1 | \
     while read -r LINE; do
         bashio::log.info "[LFTP] $LINE"
     done &
 
-    # Loop stdin Home Assistant
-    while read -r CMD; do
+    # Loop stdin Home Assistant (CORRETTO)
+    while bashio::addon.stdin CMD; do
         [[ -z "$CMD" ]] && continue
 
         # Pulizia input
@@ -92,7 +92,6 @@ else
             quit|bye|exit)
                 bashio::log.warning "Comando '${CMD}' ricevuto → chiusura controllata LFTP"
 
-                # Chiusura pulita sessione FTP
                 echo "quit" >&3
                 sleep 1
 
