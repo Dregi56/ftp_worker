@@ -46,12 +46,13 @@ if [[ -n "$LOCAL_DIR" && -n "$REMOTE_DIR" ]]; then
     if [[ -z "$INTERVAL" ]]; then
         bashio::log.info "Eseguo mirror singolo all'avvio..."
         lftp -u "${USER},${PASS}" ftp://"${HOST}" -e "${MIRROR_CMD} \"${LOCAL_DIR}\" \"${REMOTE_DIR}\"; quit"
-        bashio::log.info "Sincronizzazione completata"
+        bashio::log.info "Sincronizzazione completata, connessione LFTP chiusa."
+        exit 0  # Uscita stabile dall'addon dopo mirror singolo
     else
         bashio::log.info "Eseguo mirror periodico ogni ${INTERVAL} secondi..."
         while true; do
             lftp -u "${USER},${PASS}" ftp://"${HOST}" -e "${MIRROR_CMD} \"${LOCAL_DIR}\" \"${REMOTE_DIR}\"; quit"
-            bashio::log.info "Attendo ${INTERVAL} secondi prima del prossimo mirror..."
+            bashio::log.info "Mirror completato, prossima esecuzione tra ${INTERVAL} secondi..."
             sleep "${INTERVAL}"
         done
     fi
@@ -67,7 +68,6 @@ else
     [[ ! -p "$FIFO_CMD" ]] && mkfifo "$FIFO_CMD"
 
     # Avvio LFTP in background, stdout line-buffered
-    # Tutto l'output di LFTP viene catturato dal while read
     lftp -u "${USER},${PASS}" ftp://"${HOST}" < "$FIFO_CMD" 2>&1 | while read -r LINE; do
         bashio::log.info "[LFTP] $LINE"
     done &
