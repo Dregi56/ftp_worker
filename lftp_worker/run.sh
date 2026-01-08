@@ -3,11 +3,15 @@
 # =========================================
 # Configurazione FTP / SSL / LFTP
 # =========================================
-echo "set ssl:verify-certificate no" > ~/.lftprc
-echo "set ssl:check-hostname no" >> ~/.lftprc
-echo "set ftp:passive-mode on" >> ~/.lftprc
-echo "set ftp:ssl-allow yes" >> ~/.lftprc
-echo "set cmd:verbose no" >> ~/.lftprc
+cat <<EOF > ~/.lftprc
+set ssl:verify-certificate no
+set ssl:check-hostname no
+set ftp:passive-mode on
+set ftp:ssl-allow yes
+set cmd:verbose no
+set cmd:interactive yes
+set cmd:fail-exit no
+EOF
 
 bashio::log.info "--- MOTORE LFTP AVVIATO ---"
 
@@ -31,7 +35,7 @@ if [[ -n "$LOCAL_DIR" && -n "$REMOTE_DIR" ]]; then
     bashio::log.info "Sincronizzazione automatica abilitata"
 
     MIRROR_CMD="mirror --reverse"
-    
+
     # Filtro estensioni
     if [[ -n "$EXTENSIONS" ]]; then
         bashio::log.info "Filtro estensioni attivo: ${EXTENSIONS}"
@@ -45,42 +49,59 @@ if [[ -n "$LOCAL_DIR" && -n "$REMOTE_DIR" ]]; then
 
     if [[ -z "$INTERVAL" ]]; then
         bashio::log.info "Eseguo mirror singolo all'avvio..."
-        lftp -u "${USER},${PASS}" ftp://"${HOST}" -e "${MIRROR_CMD} \"${LOCAL_DIR}\" \"${REMOTE_DIR}\"; quit"
+        lftp -u "${USER},${PASS}" ftp://"${HOST}" \
+            -e "${MIRROR_CMD} \"${LOCAL_DIR}\" \"${REMOTE_DIR}\"; quit"
         bashio::log.info "Sincronizzazione completata"
     else
         bashio::log.info "Eseguo mirror periodico ogni ${INTERVAL} secondi..."
         while true; do
-            lftp -u "${USER},${PASS}" ftp://"${HOST}" -e "${MIRROR_CMD} \"${LOCAL_DIR}\" \"${REMOTE_DIR}\"; quit"
+            lftp -u "${USER},${PASS}" ftp://"${HOST}" \
+                -e "${MIRROR_CMD} \"${LOCAL_DIR}\" \"${REMOTE_DIR}\"; quit"
             bashio::log.info "Attendo ${INTERVAL} secondi prima del prossimo mirror..."
             sleep "${INTERVAL}"
         done
     fi
 
 # =========================================
-# Modalità stdin (FIFO) per comandi dall'automazione
+# Modalità stdin persistente
 # =========================================
 else
-    bashio::log.info "--- MOTORE LFTP PRONTO A RICEVERE COMANDI ---"
+    bashio::log.info "--- MOTORE LFTP PRONTO (SESSIONE PERSISTENTE) ---"
 
-    # Creazione FIFO per comandi
     FIFO_CMD="/tmp/lftp_fifo"
-    [[ ! -p "$FIFO_CMD" ]] && mkfifo "$FIFO_CMD"
+    [[ -p "$FIFO_CMD" ]] || mkfifo "$FIFO_CMD"
 
-    # Avvio LFTP in background, stdout line-buffered
-    # Tutto l'output di LFTP viene catturato dal while read
-    lftp -u "${USER},${PASS}" ftp://"${HOST}" < "$FIFO_CMD" 2>&1 | while read -r LINE; do
+    # Apriamo il FIFO UNA SOLA VOLTA (FD 3)
+    exec 3> "$FIFO_CMD"
+
+    # Avvio lftp persistente
+    lftp -u "${USER},${PASS}" ftp://"${HOST}" < "$FIFO_CMD" 2>&1 | \
+    while read -r LINE; do
         bashio::log.info "[LFTP] $LINE"
     done &
 
-    # Loop per leggere input dall'automazione
+    # Loop stdin Home Assistant
     while read -r CMD; do
         [[ -z "$CMD" ]] && continue
 
-        # Rimuove eventuali virgolette
+        # Pulizia input
         CMD="${CMD%\"}"
         CMD="${CMD#\"}"
 
-        bashio::log.info "Invio comando: $CMD"
-        echo "$CMD" > "$FIFO_CMD"
+        case "${CMD,,}" in
+            quit|bye|exit)
+                bashio::log.warning "Comando '${CMD}' ricevuto → chiusura controllata LFTP"
+
+                # Chiusura pulita sessione FTP
+                echo "quit" >&3
+                sleep 1
+
+                bashio::log.info "Sessione LFTP chiusa. Arresto addon."
+                exit 0
+                ;;
+        esac
+
+        bashio::log.info "▶ LFTP CMD: $CMD"
+        echo "$CMD" >&3
     done
 fi
