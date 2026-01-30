@@ -226,3 +226,11 @@ Every contribution helps support future development.
 
 LFTP Worker is and will always remain free and open source.
 Donations are completely voluntary ❤️
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/dregi56)
+
+💡 **Preferisci altri metodi?** Puoi usare:
+
+[![revolut](https://img.shields.io/badge/Revolut-0075EB?style=for-the-badge&logo=revolut&logoColor=white)](https://revolut.me/egidio5t9d)
+
+  
