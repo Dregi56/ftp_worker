@@ -108,3 +108,121 @@ The add-on starts idle and waits for commands.
 
 To send commands, use the service:
 
+hassio.addon_stdin
+
+⚠️ **Important**
+- Only **one command line** can be sent at a time
+- Multiple commands can be chained using `;`
+
+---
+
+## 📘 Example: Weekly FTP Maintenance
+
+This automation:
+- Starts the add-on
+- Cleans a remote folder
+- Uploads new `.mp4` files
+- Cleans local folders
+- Closes the FTP session
+- Stops the add-on
+
+```yaml
+- id: weekly_ftp_sync
+  alias: "Weekly FTP Video Maintenance"
+  description: "Cleans remote, uploads new MP4s, and clears local folders every Monday night"
+  trigger:
+    - platform: time
+      at: "03:00:00"
+  condition:
+    - condition: time
+      weekday:
+        - mon
+  action:
+    # 1. Start add-on
+    - service: hassio.addon_start
+      data:
+        addon: "6d4a8c9b_lftp_worker"
+
+    - delay: "00:00:20"   # add-on boot time
+
+    # 2. Send LFTP commands (single session)
+    - service: hassio.addon_stdin
+      data:
+        addon: "6d4a8c9b_lftp_worker"
+        input: "set cmd:verbose yes; cd /public/da_sud; rm -rf *; mput /media/da_sud/*.mp4"
+
+    # 3. Wait for transfer completion
+    - delay: "00:05:00"
+
+    # 4. Local cleanup
+    - service: shell_command.clean_local_da_sud
+    - service: shell_command.clean_local_est_piazzola
+
+    # 5. Close LFTP session
+    - service: hassio.addon_stdin
+      data:
+        addon: "6d4a8c9b_lftp_worker"
+        input: quit
+
+    # 6. Stop add-on
+    - service: hassio.addon_stop
+      data:
+        addon: "6d4a8c9b_lftp_worker"
+  mode: single
+
+🔁 Synchronization Mode
+
+Set local_dir, remote_dir, and optionally interval.
+
+If interval is set → continuous synchronization
+
+If interval is empty → one-time sync at startup
+
+If extensions is empty → all files are synced
+
+Multiple extensions are supported (e.g. txt,mp4,doc)
+
+For this mode, enabling Run at startup and Watchdog is recommended.
+
+📁 Basic Transfer Commands
+
+get <file> → Download one remote file
+
+mget <pattern> → Download multiple files (e.g. *.mp4)
+
+put <file> → Upload one local file
+
+mput <pattern> → Upload multiple local files
+
+🔄 Synchronization Commands
+
+mirror <remote> <local> → Sync remote → local
+
+mirror -c <remote> <local> → Sync only new files
+
+mirror --reverse <local> <remote> → Sync local → remote
+
+📌 Useful Remote File Commands
+
+mkdir <dir> → Create remote directory
+
+rm <file> → Delete remote file
+
+mrm <pattern> → Delete multiple remote files
+
+mv <src> <dst> → Rename or move a remote file
+
+⚠️ Note
+These commands do not produce output in the add-on log.
+
+🛠️ Control Commands
+
+quit or exit → Close the LFTP session
+
+☕ Support the Project
+
+If you like this project and find it useful, consider buying me a virtual coffee ☺️
+Every contribution helps support future development.
+
+LFTP Worker is and will always remain free and open source.
+Donations are completely voluntary ❤️
