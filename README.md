@@ -9,6 +9,9 @@ Created by **Egidio Ziggiotto - Dregi56**<br>
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Home Assistant](https://img.shields.io/badge/Home%20Assistant-Add--on-blue?logo=home-assistant)
 
+🌍 **Languages:**  
+[🇬🇧 English](README.md) | [🇮🇹 Italiano](README.it.md)
+
 ## Project Information
 **Last Updated:** January 08, 2026<br>
 🏷️ **Current Version:** 1.2.21 "Universal Edition"
