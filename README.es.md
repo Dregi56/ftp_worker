@@ -8,7 +8,7 @@ Creado por **Egidio Ziggiotto - Dregi56**<br>
 ![Vesion](https://img.shields.io/github/v/release/Dregi56/ftp_worker?color=orange&label=latest%20version)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Home Assistant](https://img.shields.io/badge/Home%20Assistant-Add--on-blue?logo=home-assistant)
-![Downloads](https://img.shields.io/github/github/downloads/Dregi56/ftp_worker/total?color=blue&label=downloads)
+![Downloads](https://img.shields.io/github/downloads/Dregi56/ftp_worker/total?color=blue&label=downloads)
 ![Stars](https://img.shields.io/github/stars/Dregi56/ftp_worker?style=social)
 
 
