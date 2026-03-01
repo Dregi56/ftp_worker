@@ -146,7 +146,7 @@ Per questo utilizzo può essere utile impostare `Esegui all'avvio` e `Watchdog` 
 - 🔹 `rm <file>`      → Cancella file remoto
 - 🔹 `mrm <pattern>`  → Cancella più file remoto (con wildcard)
 - 🔹 `mv <src> <dst>` → Rinomina o sposta un file remoto
-     ⚠️ **NOTA IMPORTANTE**
+<br>     ⚠️ **NOTA IMPORTANTE**
          Tutti questi comandi non danno alcun riscontro nel file registro dell'add-on!
   
 🛠️ **COMANDI DI CONTROLLO**
