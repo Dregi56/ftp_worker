@@ -8,6 +8,10 @@ Créé par **Egidio Ziggiotto - Dregi56**<br>
 ![Version](https://img.shields.io/badge/version-1.2.21-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Home Assistant](https://img.shields.io/badge/Home%20Assistant-Add--on-blue?logo=home-assistant)
+![Downloads](https://img.shields.io/github/downloads/Dregi56/ftp_worker/total)
+![Stars](https://img.shields.io/github/github-stars/Dregi56/ftp_worker?style=flat)
+![Latest Release](https://img.shields.io/github/v/release/Dregi56/ftp_worker)
+
 
 🌍 **Languages:**  
 [🇬🇧 English](README.md) | [🇮🇹 Italiano](README.it.md) | [🇪🇸 Español](README.es.md) | [🇵🇹 Português](README.pt.md) | [🇫🇷 Français](README.fr.md)
