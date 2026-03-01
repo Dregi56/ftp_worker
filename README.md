@@ -26,6 +26,30 @@ Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificar
 - **v1.0.5 (23/12/2025):** Trasformazione in motore universale tramite `stdin`. Aggiunta gestione dinamica dei comandi lftp.
 - **v1.0.0:** Versione iniziale del worker FTP.
 
+![Version](https://img.shields.io/badge/version-1.2.21-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Home Assistant](https://img.shields.io/badge/Home%20Assistant-Add--on-blue?logo=home-assistant)
+
+---
+
+## 📌 Installation
+
+### 🏠 Quick Install (Recommended)
+
+Add this repository directly to your Home Assistant instance:
+
+[![Open your Home Assistant instance and add this repository](https://my.home-assistant.io/badges/supervisor_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_addon_repository/?repository_url=https://github.com/Dregi56/ftp_worker)
+
+---
+
+### 🔧 Manual Installation
+
+1. Copy your GitHub repository URL.  
+2. In Home Assistant, go to **Settings** > **Add-ons** > **Add-on Store**.  
+3. Click the three dots in the top right corner and select **Repositories**.  
+4. Paste the repository URL (`https://github.com/Dregi56/ftp_worker`) and click **Add**.  
+5. Search for **"LFTP FTP Worker"**, click on it, and press **Install**.  
+
 📝 Descrizione
 Questo add-on per Home Assistant è un **motore universale LFTP** progettato per gestire trasferimenti file tra l'istanza locale e un server FTP remoto in modo efficiente. A differenza di altri metodi, questo add-on rimane in ascolto e processa comandi complessi tramite lo standard input (`stdin`), permettendo di eseguire pulizie, upload e download in un'unica sessione senza riconnessioni multiple. 
 E' però possibile porre l'add-on in mirroring tra due cartelle, anche filtrando i file che si vogliono mantenere aggiornati.
@@ -37,15 +61,6 @@ E' però possibile porre l'add-on in mirroring tra due cartelle, anche filtrando
 * **Sicurezza**: Le credenziali FTP sono salvate in modo sicuro nella configurazione dell'add-on.
 
 ---
-
-📌 Installazione
-
-1.  Copia l'URL della tua repository GitHub.
-2.  In Home Assistant, vai in **Impostazioni** > **Add-on** > **Raccolta di Add-on**.
-3.  Clicca sui tre puntini in alto a destra e seleziona **Archivi digitali**.
-4.  Incolla l'URL del repository (https://github.com/Dregi56/ftp_worker) clicca su **Aggiungi**.
-5.  Cerca "LFTP FTP Worker" nella lista degli add-on disponibili, cliccaci sopra e premi **Installa**.
-
 ---
 
 📌 Configurazione
