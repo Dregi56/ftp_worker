@@ -70,7 +70,7 @@ Opzionali per sincronismo:
 
 Per questo utilizzo in Configurazione lasciare vuoti gli input per dir_locale e dir_remota e interval
 L'add-on non esegue nulla all'avvio, ma resta in attesa. Per inviare comandi, usa il servizio `hassio.addon_stdin`.
-⚠️ **NOTA IMPORTANTE**: E' possibile eseguire **una sola riga di comando per volta**. Ma è possibile concatenare comandi separandoli tra loro con 'punto e virgola'
+<br>⚠️ **NOTA IMPORTANTE**: E' possibile eseguire **una sola riga di comando per volta**. Ma è possibile concatenare comandi separandoli tra loro con 'punto e virgola'
 
 
 ### Esempio: Manutenzione Settimanale
