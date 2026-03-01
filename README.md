@@ -1,135 +1,105 @@
 # 🚀 LFTP Worker Add-on for Home Assistant
+Author
+Created by Egidio Ziggiotto - Dregi56
+📧 dregi@cyberservices.com.
 
-A **universal LFTP engine** for Home Assistant designed to run **advanced FTP workflows in a single persistent session**.  
-Perfect for automations, scheduled maintenance, and bidirectional folder mirroring — **no reconnects, no fragile scripts**.
+License
+This project is released under the MIT License. You are free to use, modify, and distribute it, provided you credit the original author.
 
----
+Project Information
+Last Updated: January 08, 2026
 
-## ✨ Why LFTP Worker?
+🏷️ Current Version: 1.2.21 "Universal Edition"
 
-Most FTP integrations reconnect for every operation.  
-**LFTP Worker stays alive**, listens on `stdin`, and executes **complex command chains in one session**.
+Changelog
+v1.2.21 (01/08/2026): Changes for interactivity in the add-on logs.
 
-### What you gain:
-- ✅ Faster transfers (no repeated logins)
-- ✅ Reliable automations
-- ✅ Advanced LFTP features exposed to Home Assistant
-- ✅ Clean logs and controlled verbosity
+v1.2.7 (12/27/2025): Configured FIFO for output in the add-on logs.
 
----
+v1.2.4 (12/24/2025): Added verbose no to keep the logs clean.
 
-## 🧠 Key Features
+v1.2.3 (12/24/2025): Renamed add-on to LFTP Worker and added author email.
 
-- **Universal LFTP Engine**  
-  Supports advanced LFTP commands, passive mode, and robust error handling.
+v1.2.0 (12/24/2025): Added possibility to configure mirroring between local and remote directories (one-time at startup or scheduled).
 
-- **Persistent Session via stdin**  
-  Send complex command chains in one go — uploads, downloads, cleanup, sync.
+v1.1.6 (12/24/2025): Set "Start on boot" to off by default. Added LFTP command examples here.
 
-- **Dynamic Commands**  
-  Not limited to predefined actions. Execute **any LFTP command** from automations.
+v1.1.5 (12/24/2025): Changed add-on name. Fixed some log output messages.
 
-- **Folder Mirroring**  
-  Keep local and remote directories synchronized, optionally filtered by file extension.
+v1.1.4 (12/24/2025): Fixed bug caused by remote server login failure.
 
-- **Secure Configuration**  
-  FTP credentials are safely stored inside the add-on configuration.
+v1.1.3 (12/23/2025): Valid startup!
 
----
+v1.0.7 (12/23/2025): Directory bug fix.
 
-## 🎯 Typical Use Cases
+v1.0.6 (12/23/2025): run.sh bug fix.
 
-- 📦 Automatically upload media files
-- 🧹 Clean remote FTP folders on a schedule
-- 🔁 Mirror local ↔ remote directories
-- 🤖 Fully control FTP workflows via Home Assistant automations
-- 🛠️ Replace fragile shell scripts with a stable LFTP session
+v1.0.5 (12/23/2025): Transformation into a universal engine via stdin. Added dynamic management of LFTP commands.
 
----
+v1.0.0: Initial FTP worker version.
 
-## 👤 Author
+📝 Description
+This Home Assistant add-on is a universal LFTP engine designed to efficiently handle file transfers between your local instance and a remote FTP server. Unlike other methods, this add-on stays listening and processes complex commands via standard input (stdin), allowing you to perform cleanup, uploads, and downloads in a single session without multiple reconnections.
+It is also possible to set the add-on to mirror two folders, including filtering the files you want to keep updated.
 
-Created by **Egidio Ziggiotto - Dregi56**  
-📧 [dregi@cyberservices.com](mailto:dregi@cyberservices.com?subject=Info%20LFTP%20Worker%20Add-on)
+✨ Features
 
----
+LFTP Engine: Supports advanced operations, passive mode, and robust error handling.
 
-## 📄 License
+Dynamic Commands: Not limited to a fixed function; accepts any LFTP command via automations.
 
-This project is released under the **MIT License**.  
-You are free to use, modify, and distribute it, provided that the original author is credited.
+Mirroring: You can define two folders to keep in sync within the options.
 
----
+Security: FTP credentials are securely stored in the add-on configuration.
 
-## ℹ️ Project Information
+📌 Installation
 
-**Last Update:** January 08, 2026  
-🏷️ **Current Version:** `1.2.21` — *Universal Edition*
+Copy your GitHub repository URL.
 
----
+In Home Assistant, go to Settings > Add-ons > Add-on Store.
 
-## 📦 Installation
+Click the three dots in the top right corner and select Repositories.
 
-1. Copy your GitHub repository URL.
-2. In Home Assistant go to **Settings** → **Add-ons** → **Add-on Store**.
-3. Click the three dots (top right) and select **Repositories**.
-4. Paste the repository URL:  
-   `https://github.com/Dregi56/ftp_worker`  
-   then click **Add**.
-5. Search for **LFTP FTP Worker**, open it, and click **Install**.
+Paste the repository URL (https://github.com/Dregi56/ftp_worker) and click Add.
 
----
+Look for "LFTP FTP Worker" in the list of available add-ons, click on it, and press Install.
 
-## ⚙️ Configuration
+📌 Configuration
 
-After installation, open the **Configuration** tab and set:
+Once installed, go to the Configuration tab and fill in the following fields:
 
-### Required
-- `host` — FTP server address (e.g. `ftp.mysite.com`)
-- `user` — FTP username
-- `psw` — FTP password
+host: Your FTP server address (e.g., ftp.mysite.com).
 
-### Optional (for synchronization mode)
-- `local_dir` — Local directory
-- `remote_dir` — Remote directory
-- `interval` — Sync interval (seconds)
-- `extensions` — File extensions (e.g. `txt,mp4`)
+user: Your FTP username.
 
-🔹 **Note**  
-By default, **Run at startup** is disabled to avoid wasting resources with an always-open FTP connection.  
-If you use synchronization mode, enabling it is recommended.
+psw: Your FTP password.
 
----
+Optional for synchronization:
 
-## 🤖 Usage via Automations (stdin mode)
+local_dir: Local folder path.
 
-Leave `local_dir`, `remote_dir`, and `interval` empty.  
-The add-on starts idle and waits for commands.
+remote_dir: Remote folder path.
 
-To send commands, use the service:
+interval: Expressed in seconds.
 
-hassio.addon_stdin
+extensions: e.g., txt, mp4.
 
-⚠️ **Important**
-- Only **one command line** can be sent at a time
-- Multiple commands can be chained using `;`
+  🔹 Note: By default, Start on boot is set to off, as it is unnecessary and resource-heavy to maintain a constant connection to the remote server.                If you are using the add-on for synchronization, you should set it to ON.
+🎯 Usage via Automations
 
----
+For this use case, leave the local_dir, remote_dir, and interval inputs empty in the Configuration.
+The add-on does nothing at startup but remains waiting. To send commands, use the hassio.addon_stdin service.
 
-## 📘 Example: Weekly FTP Maintenance
 
-This automation:
-- Starts the add-on
-- Cleans a remote folder
-- Uploads new `.mp4` files
-- Cleans local folders
-- Closes the FTP session
-- Stops the add-on
+⚠️ IMPORTANT NOTE: You can execute only one command line at a time. However, you can chain commands by separating them with a semicolon (;).
 
-```yaml
+Example: Weekly Maintenance
+This automation starts the add-on, cleans remote folders, uploads new .mp4 files, closes the connection, cleans local folders, and turns off the add-on.
+
+YAML
 - id: weekly_ftp_sync
   alias: "Weekly FTP Video Maintenance"
-  description: "Cleans remote, uploads new MP4s, and clears local folders every Monday night"
+  description: "Cleans remote, uploads new MP4s, and empties local every Monday night"
   trigger:
     - platform: time
       at: "03:00:00"
@@ -142,82 +112,68 @@ This automation:
     - service: hassio.addon_start
       data:
         addon: "6d4a8c9b_lftp_worker"
-
     - delay: "00:00:20"   # add-on boot time
-
-    # 2. Send LFTP commands (single session)
+    # 2. Send lftp commands (SINGLE SESSION)
     - service: hassio.addon_stdin
       data:
         addon: "6d4a8c9b_lftp_worker"
-        input: "set cmd:verbose yes; cd /public/da_sud; rm -rf *; mput /media/da_sud/*.mp4"
-
-    # 3. Wait for transfer completion
+        input: "set cmd:verbose yes; cd /public/south_cam; rm -rf *; mput /media/south_cam/*.mp4"
+    # 3. Wait after transfer completion 
     - delay: "00:05:00"
-
     # 4. Local cleanup
-    - service: shell_command.clean_local_da_sud
-    - service: shell_command.clean_local_est_piazzola
-
-    # 5. Close LFTP session
+    - service: shell_command.cleanup_local_south
+    - service: shell_command.cleanup_local_east
+    # 5. Stop the connection
     - service: hassio.addon_stdin
       data:
         addon: "6d4a8c9b_lftp_worker"
         input: quit
-
     # 6. Stop add-on
     - service: hassio.addon_stop
       data:
         addon: "6d4a8c9b_lftp_worker"
   mode: single
+🎯 Usage for Synchronization
 
-🔁 Synchronization Mode
+For this use case, set the local_dir, remote_dir, and interval inputs in the Configuration section.
+You can maintain constant synchronization between two folders (one local and one remote) by setting the folder names in the add-on configuration.
+If interval is not set, synchronization will occur only once when the add-on starts (which can be triggered from an automation).
+If extension is left empty, all files in the folder will be synchronized; otherwise, only those with the specified extension.
+Multiple file types can be indicated, e.g., txt, mp4, doc.
+For this usage, it may be useful to set Start on boot and Watchdog to ON.
 
-Set local_dir, remote_dir, and optionally interval.
+📁 BASIC TRANSFER COMMANDS
+🔹 get <file>      → Download a single remote file
 
-If interval is set → continuous synchronization
+🔹 mget <pattern> → Download multiple files matching the pattern (e.g., *.mp4)
 
-If interval is empty → one-time sync at startup
+🔹 put <file>      → Upload a single local file
 
-If extensions is empty → all files are synced
+🔹 mput <pattern> → Upload multiple files from local to remote
 
-Multiple extensions are supported (e.g. txt,mp4,doc)
+🔄 SYNCHRONIZATION COMMANDS
+🔹 mirror <remote> <local>          → Sync directory remote → local
 
-For this mode, enabling Run at startup and Watchdog is recommended.
+🔹 mirror -c <remote> <local>       → Sync new files only
 
-📁 Basic Transfer Commands
+🔹 mirror --reverse <local> <remote> → Sync local → remote (upload)
 
-get <file> → Download one remote file
+📌 USEFUL REMOTE FILE COMMANDS
+🔹 mkdir <dir>    → Create remote directory
 
-mget <pattern> → Download multiple files (e.g. *.mp4)
+🔹 rm <file>      → Delete remote file
 
-put <file> → Upload one local file
+🔹 mrm <pattern>  → Delete multiple remote files (with wildcards)
 
-mput <pattern> → Upload multiple local files
+🔹 mv <src> <dst> → Rename or move a remote file
 
-🔄 Synchronization Commands
 
-mirror <remote> <local> → Sync remote → local
+  ⚠️ IMPORTANT NOTE
+All these commands do not provide feedback in the add-on log file!
 
-mirror -c <remote> <local> → Sync only new files
+🛠️ CONTROL COMMANDS
+🔹 quit or exit  → Closes the lftp session
 
-mirror --reverse <local> <remote> → Sync local → remote
-
-📌 Useful Remote File Commands
-
-mkdir <dir> → Create remote directory
-
-rm <file> → Delete remote file
-
-mrm <pattern> → Delete multiple remote files
-
-mv <src> <dst> → Rename or move a remote file
-
-⚠️ Note
-These commands do not produce output in the add-on log.
-
-🛠️ Control Commands
-
-quit or exit → Close the LFTP session
 
 ☕ Support the Project
 
