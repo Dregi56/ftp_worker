@@ -1,14 +1,13 @@
 # 🚀 LFTP Worker Add-on for Home Assistant
-Author
 Created by Egidio Ziggiotto - Dregi56
 📧 dregi@cyberservices.com.
-
+<br>
 License
 This project is released under the MIT License. You are free to use, modify, and distribute it, provided you credit the original author.
-
+<br>
 Project Information
 Last Updated: January 08, 2026
-
+<br>
 🏷️ Current Version: 1.2.21 "Universal Edition"
 
 Changelog
