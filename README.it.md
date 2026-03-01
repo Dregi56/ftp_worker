@@ -18,7 +18,7 @@ Realizzato da **Egidio Ziggiotto - Dregi56**<br>
 
 ## Informazioni sul Progetto
 **Data ultimo aggiornamento:** ![GitHub last commit](https://img.shields.io/github/last-commit/Dregi56/ftp_worker?label=%20)  
-🏷️ **Versione corrente:** ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Dregi56/ftp_worker?label=%20) "Universal Edition"
+🏷️ **Versione attuale:** ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Dregi56/ftp_worker?label=%20) "Universal Edition"
 
 ## Registro delle Modifiche
 - **v1.2.21 (08/01/2026):** Modifiche per interattività al log di registro dell'add-on
