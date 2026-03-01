@@ -16,8 +16,8 @@ Creado por **Egidio Ziggiotto - Dregi56**<br>
 [🇬🇧 English](README.md) | [🇮🇹 Italiano](README.it.md) | [🇪🇸 Español](README.es.md) | [🇵🇹 Português](README.pt.md) | [🇫🇷 Français](README.fr.md)
 
 ## Información del Proyecto
-**Fecha de última actualización:** 08 Enero 2026<br>
-🏷️ **Versión actual:** 1.2.21 "Universal Edition"
+**Fecha de última actualización::**  ![GitHub last commit](https://img.shields.io/github/last-commit/Dregi56/ftp_worker?label=%20) 
+<br>🏷️ **Versión actual:**  ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Dregi56/ftp_worker?label=%20) "Universal Edition"
 
 ## Registro de Cambios
 - **v1.2.21 (08/01/2026):** Mejoras en la interactividad del registro del add-on
