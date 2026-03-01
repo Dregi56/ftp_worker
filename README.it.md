@@ -1,4 +1,4 @@
-# LFTP Worker Add-on
+# 🚀 LFTP Worker Add-on for Home Assistant
 ---
 
 ## Autore
