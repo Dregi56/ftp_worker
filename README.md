@@ -4,6 +4,10 @@
 ## Autore
 Realizzato da **Egidio Ziggiotto - Dregi56**<br>
 📧 [dregi@cyberservices.com](mailto:dregi@cyberservices.com?subject=Info%20LFTP%20Worker%20Add-on).
+
+![Version](https://img.shields.io/badge/version-1.2.21-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Home Assistant](https://img.shields.io/badge/Home%20Assistant-Add--on-blue?logo=home-assistant)
 ## Licenza
 Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificarlo e distribuirlo, a patto di citare l'autore originale.
 
@@ -25,10 +29,6 @@ Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificar
 - **v1.0.6 (23/12/2025):** Correzione bug run.sh
 - **v1.0.5 (23/12/2025):** Trasformazione in motore universale tramite `stdin`. Aggiunta gestione dinamica dei comandi lftp.
 - **v1.0.0:** Versione iniziale del worker FTP.
-
-![Version](https://img.shields.io/badge/version-1.2.21-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-![Home Assistant](https://img.shields.io/badge/Home%20Assistant-Add--on-blue?logo=home-assistant)
 
 ---
 
