@@ -16,8 +16,8 @@ Created by **Egidio Ziggiotto - Dregi56**<br>
 [🇬🇧 English](README.md) | [🇮🇹 Italiano](README.it.md) | [🇪🇸 Español](README.es.md) | [🇵🇹 Português](README.pt.md) | [🇫🇷 Français](README.fr.md)
 
 ## Project Information
-**Last Updated:** January 08, 2026<br>
-🏷️ **Current Version:** 1.2.21 "Universal Edition"
+**Last Updated:** ![GitHub last commit](https://img.shields.io/github/last-commit/Dregi56/ftp_worker?label=%20)  
+🏷️ **Current Version:** ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Dregi56/ftp_worker?label=%20) "Universal Edition"
 
 ## Changelog
 - **v1.2.21 (01/08/2026):** Changes for improved interactivity in the add-on log.
