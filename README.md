@@ -36,7 +36,7 @@ Created by **Egidio Ziggiotto - Dregi56**<br>
 
 Add this repository directly to your Home Assistant instance:
 
-[![Open your Home Assistant instance and add this repository](https://my.home-assistant.io/badges/supervisor_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_addon_repository/?repository_url=https://github.com/Dregi56/ftp_worker)
+[![Open your Home Assistant instance and add this repository](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https://github.com/Dregi56/ftp_worker)
 
 ---
 
