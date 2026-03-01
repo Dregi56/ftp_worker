@@ -17,7 +17,7 @@ Criado por **Egidio Ziggiotto - Dregi56**<br>
 
 ## Informações do Projeto
 **Data da última atualização:** ![GitHub last commit](https://img.shields.io/github/last-commit/Dregi56/ftp_worker?label=%20)  
-<br> 🏷️ **Versão atual:** ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Dregi56/ftp_worker?label=%20) "Universal Edition"
+🏷️ **Versão atual:** ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Dregi56/ftp_worker?label=%20) "Universal Edition"
 
 
 ## Registro de Alterações
