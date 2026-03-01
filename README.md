@@ -1,32 +1,32 @@
 # 🚀 LFTP Worker Add-on for Home Assistant
 ---
 
-## Autore
-Realizzato da **Egidio Ziggiotto - Dregi56**<br>
+## Author
+Created by **Egidio Ziggiotto - Dregi56**<br>
 📧 [dregi@cyberservices.com](mailto:dregi@cyberservices.com?subject=Info%20LFTP%20Worker%20Add-on).
 
 ![Version](https://img.shields.io/badge/version-1.2.21-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Home Assistant](https://img.shields.io/badge/Home%20Assistant-Add--on-blue?logo=home-assistant)
 
-## Informazioni sul Progetto
-**Data Ultimo Aggiornamento:** 08 Gennaio 2026<br>
-🏷️ **Versione Corrente:** 1.2.21 "Universal Edition"
+## Project Information
+**Last Updated:** January 08, 2026<br>
+🏷️ **Current Version:** 1.2.21 "Universal Edition"
 
-## Registro delle Modifiche
-- **v1.2.21 (08/01/2026):** Modifiche per interattività al log di registro dell'add-on
-- **v1.2.7 (27/12/2025):** Configurato FIFO per output nel registro dell'add-on
-- **v1.2.4 (24/12/2025):** Aggiunti verbose no per per tenere pulito il registro.
-- **v1.2.3 (24/12/2025):** Rinominato l' add-on in LFTP Worker e inserita e-mail autore.
-- **v1.2.0 (24/12/2025):** Possibilità di configurare un mirror tra due directory, locale e remota, una tantum all'avvio o a tempo.
-- **v1.1.6 (24/12/2025):** Esegui all'avvio settato off. Aggiunti qui esempi di comandi lfpt.
-- **v1.1.5 (24/12/2025):** Cambiato nome all' add-on. Corrette alcune voci restituite nel registro.
-- **v1.1.4 (24/12/2025):** Corretto il bug causato dal fallimento del loggin al server remoto.
-- **v1.1.3 (23/12/2025):** Avvio valido!
-- **v1.0.7 (23/12/2025):** Correzione bug directory.
-- **v1.0.6 (23/12/2025):** Correzione bug run.sh
-- **v1.0.5 (23/12/2025):** Trasformazione in motore universale tramite `stdin`. Aggiunta gestione dinamica dei comandi lftp.
-- **v1.0.0:** Versione iniziale del worker FTP.
+## Changelog
+- **v1.2.21 (01/08/2026):** Changes for improved interactivity in the add-on log.
+- **v1.2.7 (12/27/2025):** Configured FIFO for output in the add-on log.
+- **v1.2.4 (12/24/2025):** Added `verbose no` to keep the log clean.
+- **v1.2.3 (12/24/2025):** Renamed the add-on to LFTP Worker and added the author email.
+- **v1.2.0 (12/24/2025):** Possibility to configure mirroring between two directories, local and remote, either once at startup or scheduled.
+- **v1.1.6 (12/24/2025):** Set "Start on boot" to off. Added LFTP command examples here.
+- **v1.1.5 (12/24/2025):** Changed the add-on name. Corrected some log output entries.
+- **v1.1.4 (12/24/2025):** Fixed the bug caused by remote server login failure.
+- **v1.1.3 (12/23/2025):** Valid startup!
+- **v1.0.7 (12/23/2025):** Directory bug fix.
+- **v1.0.6 (12/23/2025):** run.sh bug fix.
+- **v1.0.5 (12/23/2025):** Transformation into a universal engine via `stdin`. Added dynamic management of LFTP commands.
+- **v1.0.0:** Initial FTP worker version.
 
 ---
 
@@ -48,51 +48,52 @@ Add this repository directly to your Home Assistant instance:
 4. Paste the repository URL (`https://github.com/Dregi56/ftp_worker`) and click **Add**.  
 5. Search for **"LFTP FTP Worker"**, click on it, and press **Install**.  
 
-📝 Descrizione
-Questo add-on per Home Assistant è un **motore universale LFTP** progettato per gestire trasferimenti file tra l'istanza locale e un server FTP remoto in modo efficiente. A differenza di altri metodi, questo add-on rimane in ascolto e processa comandi complessi tramite lo standard input (`stdin`), permettendo di eseguire pulizie, upload e download in un'unica sessione senza riconnessioni multiple. 
-E' però possibile porre l'add-on in mirroring tra due cartelle, anche filtrando i file che si vogliono mantenere aggiornati.
+📝 Description  
+This Home Assistant add-on is a **universal LFTP engine** designed to efficiently manage file transfers between your local instance and a remote FTP server. Unlike other methods, this add-on stays listening and processes complex commands via standard input (`stdin`), allowing you to perform cleanups, uploads, and downloads in a single session without multiple reconnections.  
+It is also possible to configure the add-on in mirroring mode between two folders, optionally filtering which files you want to keep updated.
 
-✨ Caratteristiche
-* **Motore LFTP**: Supporta operazioni avanzate, modalità passiva e gestione robusta degli errori.
-* **Comandi Dinamici**: Non è limitato a una funzione fissa; accetta qualsiasi comando LFTP tramite automazioni.
-* **Mirroring**: In opzioni si possono stabilire due cartelle da tenere aggiornate
-* **Sicurezza**: Le credenziali FTP sono salvate in modo sicuro nella configurazione dell'add-on.
+✨ Features  
+* **LFTP Engine**: Supports advanced operations, passive mode, and robust error handling.
+* **Dynamic Commands**: Not limited to a fixed function; accepts any LFTP command via automations.
+* **Mirroring**: In the options you can define two folders to keep synchronized.
+* **Security**: FTP credentials are securely stored in the add-on configuration.
 
 ---
 ---
 
-📌 Configurazione
+📌 Configuration
 
-Una volta installato, vai nella scheda **Configurazione** e compila i seguenti campi:
+Once installed, go to the **Configuration** tab and fill in the following fields:
 
-* `host`: L'indirizzo del tuo server FTP (es: `ftp.miosito.it`).
-* `user`: Il tuo nome utente FTP.
-* `psw`: La tua password FTP.
+* `host`: Your FTP server address (e.g., `ftp.mysite.com`).
+* `user`: Your FTP username.
+* `psw`: Your FTP password.
 
-Opzionali per sincronismo:
-* `local_dir`: Cartella locale.
-* `remote_dir`: Cartella remota.
-* `interval`: Espresso in secondi
-* `extensions`: es. txt, mp4
+Optional for synchronization:
+* `local_dir`: Local folder.
+* `remote_dir`: Remote folder.
+* `interval`: Expressed in seconds.
+* `extensions`: e.g., txt, mp4
 
-  🔹 **Nota:** Di default la voce **Esegui all'avvio** è off in quanto è inutile e dispendioso in termini di risorse mantenere apperto un collegamento col server remoto.
-               Se si sta utilizzando l'add-on per sincronismo è opportuno settarlo on.
+  🔹 **Note:** By default, **Start on boot** is set to off because it is unnecessary and resource-intensive to keep an open connection to the remote server.  
+               If you are using the add-on for synchronization, it is recommended to set it to on.
+
 ---
 
-🎯 Utilizzo tramite Automazioni
+🎯 Usage via Automations
 
-Per questo utilizzo in Configurazione lasciare vuoti gli input per dir_locale e dir_remota e interval
-L'add-on non esegue nulla all'avvio, ma resta in attesa. Per inviare comandi, usa il servizio `hassio.addon_stdin`.
-<br>⚠️ **NOTA IMPORTANTE**: E' possibile eseguire **una sola riga di comando per volta**. Ma è possibile concatenare comandi separandoli tra loro con 'punto e virgola'
+For this use case, leave the inputs for `local_dir`, `remote_dir`, and `interval` empty in the Configuration section.  
+The add-on does nothing at startup but remains waiting. To send commands, use the `hassio.addon_stdin` service.  
 
+<br>⚠️ **IMPORTANT NOTE**: It is possible to execute **only one command line at a time**. However, you can chain commands by separating them with a semicolon.
 
-### Esempio: Manutenzione Settimanale
-Questa automazione avvia l'add-on, pulisce le cartelle remote, carica i nuovi file `.mp4` chiude la connessione e pulisce le cartelle locali, spegne l'add-on.
+### Example: Weekly Maintenance
+This automation starts the add-on, cleans remote folders, uploads new `.mp4` files, closes the connection, cleans local folders, and stops the add-on.
 
 ```yaml
 - id: weekly_ftp_sync
-  alias: "Manutenzione Settimanale Video FTP"
-  description: "Pulisce remoto, carica nuovi MP4 e svuota locale ogni lunedì notte"
+  alias: "Weekly FTP Video Maintenance"
+  description: "Cleans remote, uploads new MP4s, and empties local every Monday night"
   trigger:
     - platform: time
       at: "03:00:00"
@@ -101,22 +102,22 @@ Questa automazione avvia l'add-on, pulisce le cartelle remote, carica i nuovi fi
       weekday:
         - mon
   action:
-    # 1. Avvio add-on
+    # 1. Start add-on
     - service: hassio.addon_start
       data:
         addon: "6d4a8c9b_lftp_worker"
-    - delay: "00:00:20"   # tempo di boot add-on
-    # 2. Invio comandi lftp (SESSIONE UNICA)
+    - delay: "00:00:20"   # add-on boot time
+    # 2. Send lftp commands (SINGLE SESSION)
     - service: hassio.addon_stdin
       data:
         addon: "6d4a8c9b_lftp_worker"
         input: "set cmd:verbose yes; cd /public/da_sud; rm -rf *; mput /media/da_sud/*.mp4"
-    # 3. Attesa dopo fine trasferimento 
+    # 3. Wait after transfer completion 
     - delay: "00:05:00"
-    # 4. Pulizia locale
+    # 4. Local cleanup
     - service: shell_command.pulisci_locale_da_sud
     - service: shell_command.pulisci_locale_est_piazzola
-    # 5. Arresta il collegamento
+    # 5. Close the connection
     - service: hassio.addon_stdin
       data:
         addon: "6d4a8c9b_lftp_worker"
@@ -127,58 +128,56 @@ Questa automazione avvia l'add-on, pulisce le cartelle remote, carica i nuovi fi
         addon: "6d4a8c9b_lftp_worker"
   mode: single
 ```
----
-
-🎯 Utilizzo per sincronismo
-
-Per questo utilizzo impostare  gli input per `dir_locale` e `dir_remota` e `interval` nella sezione `Configurazione`
-E' possibile mantenere un sincronismo costante tra due cartelle, una locale ed una remota, impostando il nome delle cartelle stesse in configurazione add-on.
-Se non viene impostato `interval` l'esecuzione di sincronismo avviene una tantum all'avvio dell'add-on, avvio che può essere richiamato dall'interno di una automazione.
-Lasciando vuoto `extension`, tutti i file della cartella veranno sincronizzati, diversamente solo quelli con l'estensione indicata.
-Può essere indicata più di una tipologia di file es. txt, mp4, doc
-Per questo utilizzo può essere utile impostare `Esegui all'avvio` e `Watchdog` su on
 
 ---
 
-📁 **COMANDI DI TRASFERIMENTO BASE**
----------------------------------
-- 🔹 `get <file>`     → Scarica **un file remoto**
-- 🔹 `mget <pattern>` → Scarica **più file** che corrispondono al pattern (es. `*.mp4`)
-- 🔹 `put <file>`     → Carica **un file locale**
-- 🔹 `mput <pattern>` → Carica **più file** da locale a remoto
+🎯 Usage for Synchronization
 
-🔄 **COMANDI DI SINCRONIZZAZIONE**
----------------------------------
-- 🔹 `mirror <remote> <local>`          → Sincronizza directory **remota → locale**
-- 🔹 `mirror -c <remote> <local>`       → Sincronizza **solo nuovi file**
-- 🔹 `mirror --reverse <local> <remote>` → Sincronizza **locale → remoto** (upload)
+For this use case, set the inputs for `local_dir`, `remote_dir`, and `interval` in the `Configuration` section.  
+It is possible to maintain constant synchronization between two folders, one local and one remote, by setting their names in the add-on configuration.  
+If `interval` is not set, synchronization will run once at add-on startup, which can be triggered from an automation.  
+If `extensions` is left empty, all files in the folder will be synchronized; otherwise, only files with the specified extension will be synced.  
+You can specify more than one file type, e.g., txt, mp4, doc.  
+For this use case, it may be useful to set `Start on boot` and `Watchdog` to on.
 
-📌 **COMANDI UTILI PER FILE REMOTI**
+---
+
+📁 **BASIC TRANSFER COMMANDS**
 ---------------------------------
-- 🔹 `mkdir <dir>`    → Crea directory remota
-- 🔹 `rm <file>`      → Cancella file remoto
-- 🔹 `mrm <pattern>`  → Cancella più file remoto (con wildcard)
-- 🔹 `mv <src> <dst>` → Rinomina o sposta un file remoto
-<br>     ⚠️ **NOTA IMPORTANTE**
-         Tutti questi comandi non danno alcun riscontro nel file registro dell'add-on!
+- 🔹 `get <file>`     → Download **a single remote file**
+- 🔹 `mget <pattern>` → Download **multiple files** matching the pattern (e.g., `*.mp4`)
+- 🔹 `put <file>`     → Upload **a single local file**
+- 🔹 `mput <pattern>` → Upload **multiple files** from local to remote
+
+🔄 **SYNCHRONIZATION COMMANDS**
+---------------------------------
+- 🔹 `mirror <remote> <local>`          → Synchronize directory **remote → local**
+- 🔹 `mirror -c <remote> <local>`       → Synchronize **new files only**
+- 🔹 `mirror --reverse <local> <remote>` → Synchronize **local → remote** (upload)
+
+📌 **USEFUL REMOTE FILE COMMANDS**
+---------------------------------
+- 🔹 `mkdir <dir>`    → Create remote directory
+- 🔹 `rm <file>`      → Delete remote file
+- 🔹 `mrm <pattern>`  → Delete multiple remote files (with wildcard)
+- 🔹 `mv <src> <dst>` → Rename or move a remote file
+<br>     ⚠️ **IMPORTANT NOTE**
+         All these commands do not provide any feedback in the add-on log file!
   
-🛠️ **COMANDI DI CONTROLLO**
+🛠️ **CONTROL COMMANDS**
 ---------------------------------
-- 🔹 `quit` o `exit`  → Chiude la sessione `lftp`
+- 🔹 `quit` or `exit`  → Closes the `lftp` session
 
 ## 
 
-## ☕ Supporta il progetto
+## ☕ Support the Project
 
-Ti piace questo progetto? Se lo trovi utile, offrimi un caffè virtuale per sostenere le evoluzioni future! Ogni piccolo contributo è super apprezzato. 🙏
+Do you like this project? If you find it useful, buy me a virtual coffee to support future developments! Every small contribution is greatly appreciated. 🙏
 
-**LFT Worker è e rimarrà sempre gratuito e open source.** Le donazioni sono completamente volontarie! ❤️
-
+**LFTP Worker is and will always remain free and open source.** Donations are completely voluntary! ❤️
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/dregi56)
 
-💡 **Preferisci altri metodi?** Puoi usare:
+💡 **Prefer other methods?** You can use:
 
 [![revolut](https://img.shields.io/badge/Revolut-0075EB?style=for-the-badge&logo=revolut&logoColor=white)](https://revolut.me/egidio5t9d)
-
-  
