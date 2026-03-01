@@ -8,8 +8,6 @@ Realizzato da **Egidio Ziggiotto - Dregi56**<br>
 ![Version](https://img.shields.io/badge/version-1.2.21-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Home Assistant](https://img.shields.io/badge/Home%20Assistant-Add--on-blue?logo=home-assistant)
-## Licenza
-Questo progetto è rilasciato sotto licenza MIT. Sei libero di usarlo, modificarlo e distribuirlo, a patto di citare l'autore originale.
 
 ## Informazioni sul Progetto
 **Data Ultimo Aggiornamento:** 08 Gennaio 2026<br>
