@@ -10,7 +10,7 @@ Creado por **Egidio Ziggiotto - Dregi56**<br>
 ![Home Assistant](https://img.shields.io/badge/Home%20Assistant-Add--on-blue?logo=home-assistant)
 
 🌍 **Languages:**  
-[🇬🇧 English](README.md) | [🇮🇹 Italiano](README.it.md) | [🇪🇸 Español](README.es.md)
+[🇬🇧 English](README.md) | [🇮🇹 Italiano](README.it.md) | [🇪🇸 Español](README.es.md) | [🇵🇹 Português](README.pt.md) | [🇫🇷 Français](README.fr.md)
 
 ## Información del Proyecto
 **Fecha de última actualización:** 08 Enero 2026<br>
